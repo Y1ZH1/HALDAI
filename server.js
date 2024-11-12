@@ -78,6 +78,6 @@ app.post('/login', async (req, res) => {
   }
 });
 
-app.listen(80, () => {
-  console.log(`Server is running on port ${80}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });
