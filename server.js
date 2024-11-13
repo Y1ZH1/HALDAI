@@ -9,9 +9,22 @@ const mysql = require('mysql2');
 const app = express();
 const PORT = 5302;
 
+//get请求路由
+app.get('/register', (req, res) => {
+  res.sendFile(__dirname + '/public/register.html');
+}); 
+
+app.get('/login', (req, res) => {
+  res.sendFile(__dirname + '/public/login.html');
+}); 
+
+app.get('/dashboard', (req, res) => {
+  res.sendFile(__dirname + '/public/dashboard.html');
+}); 
+
 // 创建 MySQL 连接池
 const db = mysql.createPool({
-  host: 'localhost',
+  host: '172.29.160.151',
   user: 'mydb',
   password: 'zRDfAEEMGChfx4K8',
   database: 'mydb'
@@ -20,7 +33,7 @@ const db = mysql.createPool({
 app.use(bodyParser.json());
 app.use(cors());
 
-// app.use(express.static(__dirname));
+app.use(express.static('public'));
 
 // 注册接口
 app.post('/register', async (req, res) => {
