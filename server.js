@@ -7,31 +7,25 @@ const jwt = require('jsonwebtoken');
 const mysql = require('mysql2');
 
 const app = express();
-const PORT = 80;
+const PORT = 5302;
 
-// 创建 MySQL 连接
-const db = mysql.createConnection({
+// 创建 MySQL 连接池
+const db = mysql.createPool({
   host: 'localhost',
-  user: 'root',
-  password: '123456',
+  user: 'mydb',
+  password: 'zRDfAEEMGChfx4K8',
   database: 'mydb'
-});
-
-db.connect((err) => {
-  if (err) throw err;
-  console.log('Connected to MySQL database');
 });
 
 app.use(bodyParser.json());
 app.use(cors());
 
-app.use(express.static('public'));
+// app.use(express.static(__dirname));
 
 // 注册接口
-app.post('/regist', async (req, res) => {
+app.post('/register', async (req, res) => {
+  console.log("收到注册请求"); // 确认服务器收到了请求
   const { username, password } = req.body;
-  //下面一行为我自己添加的内容
-  res.status(201).json({ message: '用户注册成功' });
   try {
     // 检查用户名是否已存在
     const [results] = await db.promise().query('SELECT * FROM userinfo WHERE username = ?', [username]);

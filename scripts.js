@@ -1,76 +1,70 @@
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const mysql = require('mysql2');
-
-const app = express();
-const PORT = 80; // 使用更高端口以避免权限问题
-
-// 创建 MySQL 连接池
-const db = mysql.createPool({
-  host: 'localhost',
-  user: 'root',
-  password: '123456',
-  database: 'mydb'
-});
-
-app.use(bodyParser.json());
-app.use(cors());
-
-app.use(express.static('public'));
-
-// 注册接口
-app.post('/register', async (req, res) => {
-  const { username, password } = req.body;
-
-  try {
-    // 检查用户名是否已存在
-    const [results] = await db.promise().query('SELECT * FROM userinfo WHERE username = ?', [username]);
-    if (results.length > 0) {
-      return res.status(400).json({ message: '用户名已存在' }); 
-    }
-    
-    // 加密密码
-    const hashedPassword = await bcrypt.hash(password, 10);
-
-    // 插入新用户
-    await db.promise().query('INSERT INTO userinfo (username, password) VALUES (?, ?)', [username, hashedPassword]);
-
-    res.status(201).json({ message: '用户注册成功' });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: '服务器错误' });
+document.addEventListener('DOMContentLoaded', () => {
+  const registerForm = document.getElementById('registerForm');
+  const loginForm = document.getElementById('loginForm');
+  
+  // 注册表单提交事件
+  if (registerForm) {
+      registerForm.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          
+          const username = registerForm.username.value;
+          const password = registerForm.password.value;
+          
+          try {
+              const response = await fetch('/register', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({ username, password })
+              });
+              
+              const result = await response.json();
+              if (response.ok) {
+                  alert(result.message);  // 用户注册成功
+                  registerForm.reset();    // 清空表单
+                  window.location.href = '/login'; // 跳转到登录页面
+              } else {
+                  alert(result.message);  // 用户名已存在或其他错误
+              }
+          } catch (error) {
+              alert('服务器错误，请稍后重试');
+              console.error(error);
+          }
+      });
   }
-});
-
-// 登录接口
-app.post('/login', async (req, res) => {
-  const { username, password } = req.body;
-
-  try {
-    const [results] = await db.promise().query('SELECT * FROM userinfo WHERE username = ?', [username]);
-
-    if (results.length === 0) {
-      return res.status(401).json({ message: '用户不存在' });
-    }
-
-    const user = results[0];
-    const isMatch = await bcrypt.compare(password, user.password);
-
-    if (!isMatch) {
-      return res.status(401).json({ message: '密码错误' });
-    }
-
-    const token = jwt.sign({ id: user.id, username: user.username }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    res.json({ token });
-  } catch (err) {
-    console.error(err);
-    res.status(500).json({ message: '服务器错误' });
+  
+  // 登录表单提交事件
+  if (loginForm) {
+      loginForm.addEventListener('submit', async (event) => {
+          event.preventDefault();
+          
+          const username = loginForm.username.value;
+          const password = loginForm.password.value;
+          
+          try {
+              const response = await fetch('/login', {
+                  method: 'POST',
+                  headers: {
+                      'Content-Type': 'application/json'
+                  },
+                  body: JSON.stringify({ username, password })
+              });
+              
+              const result = await response.json();
+              if (response.ok) {
+                  alert('登录成功');
+                  // 可以将 token 保存到 localStorage 或 cookies 中
+                  localStorage.setItem('token', result.token);
+                  loginForm.reset();  // 清空表单
+                  window.location.href = '/dashboard'; // 登录成功后的跳转页面
+              } else {
+                  alert(result.message);  // 用户不存在或密码错误
+              }
+          } catch (error) {
+              alert('服务器错误，请稍后重试');
+              console.error(error);
+          }
+      });
   }
-});
-
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
 });
