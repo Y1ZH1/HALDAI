@@ -6,19 +6,46 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const mysql = require('mysql2');
 
+// const debug = require('debug')('app:token');  // 为 token 相关的部分设置调试标签
+
 const app = express();
 const PORT = 5302;
 
-//get请求路由
+// 验证 token 的中间件
+const authenticateToken = (req, res, next) => {
+  const token = req.headers['authorization'] && req.headers['authorization'].split(' ')[1];  // 从 Authorization 头部提取 token
+  console.log('Token from Authorization header:', token);   //DEBUG
+  console.log('Authorization header:', req.headers['authorization']);
+
+  if (!token) {
+    return res.status(401).json({ message: 'Missing or invalid token' }); // 返回 401 错误
+  }
+
+  // 验证 token 是否有效
+  jwt.verify(token, 'xawlttjc', (err, user) => {
+    if (err) {
+      return res.status(401).json({ message: 'Invalid token' }); // 返回 401 错误
+    }
+    
+    req.user = user;  // 将验证通过的用户信息附加到请求对象中
+    next();  // 如果验证通过，继续处理请求
+  });
+};
+
+
+
+// 注册页面
 app.get('/register', (req, res) => {
   res.sendFile(__dirname + '/public/register.html');
 }); 
 
+// 登录页面
 app.get('/login', (req, res) => {
   res.sendFile(__dirname + '/public/login.html');
 }); 
 
-app.get('/dashboard', (req, res) => {
+// 保护的 /dashboard 页面，只有经过身份验证的用户才能访问
+app.get('/dashboard', authenticateToken, (req, res) => {
   res.sendFile(__dirname + '/public/dashboard.html');
 }); 
 
