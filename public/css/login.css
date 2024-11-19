@@ -1,0 +1,71 @@
+body {
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  margin: 0;
+  background-image: url('../pic/bg.png'); /* 设置背景图片 */
+  background-size: cover; /* 背景图片覆盖整个屏幕 */
+  background-position: center; /* 背景图片居中 */
+  background-attachment: fixed; /* 保持背景固定在屏幕 */
+  position: relative; /* 相对定位 */
+}
+
+.container {
+  background-color: rgba(255, 255, 255, 0.3); /* 半透明白色背景 */
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 300px;
+  text-align: center;
+  backdrop-filter: blur(10px); /* 毛玻璃效果 */
+  -webkit-backdrop-filter: blur(10px); /* 为 Safari 浏览器提供兼容性 */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 确保内容居中对齐 */
+}
+
+h2 {
+  margin-bottom: 20px;
+}
+
+form {
+  width: 100%; /* 确保表单宽度是100% */
+}
+
+input {
+  width: 100%; /* 输入框占满整个容器的宽度 */
+  padding: 10px;
+  margin: 10px 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-sizing: border-box; /* 确保 padding 不会影响输入框的实际宽度 */
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #0056b3;
+}
+
+p {
+  margin-top: 20px;
+}
+
+a {
+  color: #007BFF;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}

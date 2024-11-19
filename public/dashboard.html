@@ -1,51 +1,45 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh">
 <head>
     <meta charset="UTF-8">
-    <title>简单用户界面</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-            color: #333;
-        }
-        .container {
-            width: 50%;
-            margin: auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-        }
-        h1 {
-            text-align: center;
-        }
-        input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-        button {
-            width: 100%;
-            padding: 10px;
-            background-color: #007BFF;
-            border: none;
-            color: white;
-            cursor: pointer;
-            border-radius: 4px;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>控制面板</title>
+    <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
-    <div class="container">
-        <h1>欢迎使用本系统</h1>
+
+    <!-- 顶部边栏 -->
+    <div class="top-bar">
+        <div class="logo"></div>
+        <div class="menu">
+            <button id="menu-button">菜单</button>
+            <div class="logout-menu" id="logout-menu">
+                <button onclick="logout()"><b>退出登录</b></button>
+            </div>
+        </div>
     </div>
+
+    <!-- 左侧侧边栏 -->
+    <div class="sidebar">
+        <a href="#UserInfo" class="sidebar-item" id="UserInfo" onclick="loadPage('./boardPages/main.html')">用户信息</a>
+        <a href="#" class="sidebar-item" id="item2" onclick="loadPage('./boardPages/main.html')">骨骼点</a>
+        <a href="#" class="sidebar-item" id="item3" onclick="loadPage('./boardPages/main.html')">体态问题</a>
+        <a href="#" class="sidebar-item" id="item4" onclick="loadPage('./boardPages/main.html')">芸迹</a>
+        <a href="#" class="sidebar-item" id="item5" onclick="loadPage('https://www.baidu.com/')">调查问卷</a>
+        
+        <!-- 太阳/月亮切换按钮 -->
+        <button id="theme-toggle" class="sidebar-item">
+            &#x2600; <!-- 太阳符号 -->
+        </button>
+    </div>
+
+    <!-- 右侧主内容 -->
+    <div class="main-content" id="main-content">
+        <!-- 默认显示的页面内容 -->
+        <iframe id="content-frame" src="" frameborder="0"></iframe>
+    </div>
+
+    <script src="dashboard.js"></script>
+
 </body>
 </html>

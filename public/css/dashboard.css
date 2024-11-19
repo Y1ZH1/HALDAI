@@ -1,0 +1,169 @@
+/* 基本布局 */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    height: 100vh;
+    background-color: #f4f7fa;
+    overflow: hidden;
+}
+
+/* 顶部边栏样式 */
+.top-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #007bff;
+    color: white;
+    height: 60px;
+    padding: 0 40px 0 20px;;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;  /* 确保顶部栏位于最上层 */
+}
+
+.top-bar .logo {
+    width: 50px;
+    height: 50px;
+    background-color: white;
+    border-radius: 50%;
+    display: inline-block;
+    background-image: url('../pic/favicon.ico');
+    background-size: cover;
+}
+
+.top-bar .menu {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.top-bar .menu button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.top-bar .menu button:hover {
+    opacity: 0.8;
+}
+
+/* 侧边栏样式 */
+.sidebar {
+    width: 250px;
+    background-color: #343a40;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
+    position: fixed; /* Fixed定位在页面左侧 */
+    top: 60px; /* 避免顶部边栏遮挡 */
+    bottom: 0;
+    z-index: 500; /* 确保侧边栏位于顶部边栏下面 */
+    transition: width 0.3s;
+}
+
+.sidebar a {
+    text-decoration: none;
+    color: white;
+    padding: 15px 20px;
+    display: block;
+    font-size: 18px;
+    transition: background-color 0.3s;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.sidebar a:hover, .sidebar a.active {
+    background-color: #007bff;
+}
+
+/* 主内容区域样式 */
+.main-content {
+    flex-grow: 1;
+    margin-left: 250px;  /* 给主内容留出侧边栏的宽度 */
+    padding: 20px;
+    background-color: #ffffff;
+    overflow-y: auto;
+    margin-top: 60px; /* 让主内容不被顶部边栏遮挡 */
+}
+
+/* 显示/隐藏退出菜单 */
+.logout-menu {
+    display: none;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 10px;
+    border-radius: 5px;
+    min-width: 50px;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0s 0.3s; 
+}
+
+.logout-menu.show {
+    display: block;
+    opacity: 1;
+    visibility: visible;
+    transition: opacity 0.3s ease, visibility 0s 0s; 
+}
+
+.menu button:focus + .logout-menu {
+    display: block;
+}
+
+/* iframe样式 */
+iframe {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* 太阳/月亮切换按钮样式 */
+#theme-toggle {
+    background-color: transparent;
+    border: none;
+    font-size: 24px; /* 调整符号大小 */
+    color: white;
+    cursor: pointer;
+    padding: 15px 20px;
+    margin-top: auto; /* 将按钮固定到侧边栏底部 */
+    text-align: center;
+    display: block;
+}
+
+#theme-toggle:hover {
+    opacity: 0.7;
+}
+
+body.dark-mode {
+    background-color: #2d2d2d; /* 深色背景 */
+    color: white; /* 白色文字 */
+}
+
+body.dark-mode .top-bar {
+    background-color: #444; /* 深色顶部边栏 */
+}
+
+body.dark-mode .sidebar {
+    background-color: #222; /* 深色侧边栏 */
+}
+
+body.dark-mode .sidebar a {
+    background-color: #333; /* 深色菜单项 */
+}
+
+body.dark-mode .sidebar a:hover {
+    background-color: #007bff; /* 深色模式下的 hover 效果 */
+}
+
+body.dark-mode .main-content {
+    background-color: #333; /* 深色主内容背景 */
+}

@@ -32,8 +32,6 @@ const authenticateToken = (req, res, next) => {
   });
 };
 
-
-
 // 注册页面
 app.get('/register', (req, res) => {
   res.sendFile(__dirname + '/public/register.html');
@@ -45,7 +43,7 @@ app.get('/login', (req, res) => {
 }); 
 
 // 保护的 /dashboard 页面，只有经过身份验证的用户才能访问
-app.get('/dashboard', authenticateToken, (req, res) => {
+app.get('/dashboard', (req, res) => {
   res.sendFile(__dirname + '/public/dashboard.html');
 }); 
 
@@ -64,7 +62,7 @@ app.use(express.static('public'));
 
 // 注册接口
 app.post('/register', async (req, res) => {
-  console.log("收到注册请求"); // 确认服务器收到了请求
+  console.log("INFO: 收到注册请求"); // 确认服务器收到了请求
   const { username, password } = req.body;
   try {
     // 检查用户名是否已存在
@@ -78,7 +76,8 @@ app.post('/register', async (req, res) => {
 
     // 插入新用户
     await db.promise().query('INSERT INTO userinfo (username, password) VALUES (?, ?)', [username, hashedPassword]);
-
+    
+    console.log(`INFO: 用户“${username}”注册成功`);
     res.status(201).json({ message: '用户注册成功' });
   } catch (err) {
     console.error(err);
@@ -89,6 +88,7 @@ app.post('/register', async (req, res) => {
 // 登录接口
 app.post('/login', async (req, res) => {
   const { username, password } = req.body;
+  console.log(`INFO: 收到用户“${username}”的登录请求`);
 
   try {
     const [results] = await db.promise().query('SELECT * FROM userinfo WHERE username = ?', [username]);
@@ -104,6 +104,7 @@ app.post('/login', async (req, res) => {
       return res.status(401).json({ message: '密码错误' });
     }
 
+    console.log(`INFO: 用户“${username}”登录成功`);
     const token = jwt.sign({ id: user.id, username: user.username }, 'xawlttjc', { expiresIn: '1h' });
     res.json({ token });
   } catch (err) {

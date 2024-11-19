@@ -5,10 +5,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // 注册表单提交事件
     if (registerForm) {
         registerForm.addEventListener('submit', async (event) => {
-            event.preventDefault();
+            event.preventDefault();  // 阻止默认表单提交
             
             const username = registerForm.username.value;
             const password = registerForm.password.value;
+
+            if (!registerForm.checkValidity()) {
+                alert("请确保密码和确认密码一致！");
+                return;
+            }
             
             try {
                 const response = await fetch('/register', {
@@ -26,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     window.location.href = '/login'; // 跳转到登录页面
                 } else {
                     alert(result.message);  // 用户名已存在或其他错误
+                    registerForm.reset();
                 }
             } catch (error) {
                 alert('服务器错误，请稍后重试');
@@ -33,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     }
-    
+
     // 登录表单提交事件
     if (loginForm) {
         loginForm.addEventListener('submit', async (event) => {
@@ -61,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     window.location.href = '/dashboard';
                 } else {
                     alert(result.message);  // 用户名或密码错误
+                    registerForm.reset();
                 }
             } catch (error) {
                 alert('服务器错误，请稍后重试');
@@ -69,9 +76,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-
     // 检查用户是否已登录，若没有 token 或 token 无效，重定向到登录页面
-    // 页面加载时检查 token
     if (window.location.pathname === '/dashboard') {
         console.log('进入dashboard');   //DEBUG
         
@@ -103,5 +108,4 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         }
     }
-
 });
