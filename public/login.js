@@ -61,13 +61,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (response.ok) {
                     alert('登录成功');
                     // 将 token 保存到 localStorage 中
-                    localStorage.setItem('token', result.token);
+                    localStorage.setItem('token', result.data.token);
                     loginForm.reset();  // 清空表单
                     // 登录成功后直接跳转到 dashboard 页面
-                    window.location.href = '/dashboard';
+                    window.location.href = '/user';
                 } else {
                     alert(result.message);  // 用户名或密码错误
-                    registerForm.reset();
+                    loginForm.reset();
                 }
             } catch (error) {
                 alert('服务器错误，请稍后重试');
@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // 检查用户是否已登录，若没有 token 或 token 无效，重定向到登录页面
-    if (window.location.pathname === '/dashboard') {
+    if (window.location.pathname === '/user') {
         console.log('进入dashboard');   //DEBUG
         
         const token = localStorage.getItem('token');
@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
             console.log('Token from localStorage:', token);  //DEBUG
 
             // 如果有 token，验证 token 是否有效
-            fetch('/dashboard', {
+            fetch('/user', {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${token}`  // 添加 Authorization 头部发送 token

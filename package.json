@@ -1,10 +1,12 @@
 {
   "dependencies": {
+    "@radix-ui/react-avatar": "^1.1.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.3",
     "cors": "^2.8.5",
     "express": "^4.21.1",
     "jsonwebtoken": "^9.0.2",
+    "lucide-react": "^0.460.0",
     "mysql2": "^3.11.4"
   }
 }

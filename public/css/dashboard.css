@@ -1,11 +1,16 @@
 /* 基本布局 */
+html {
+    background: url('../pic/bg.png') no-repeat center center;
+}
+
 body {
     margin: 0;
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', Arial, sans-serif;
     display: flex;
     height: 100vh;
     background-color: #f4f7fa;
     overflow: hidden;
+    transition: background-color 0.3s ease;
 }
 
 /* 顶部边栏样式 */
@@ -16,12 +21,13 @@ body {
     background-color: #007bff;
     color: white;
     height: 60px;
-    padding: 0 40px 0 20px;;
+    padding: 0 15px;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 1000;  /* 确保顶部栏位于最上层 */
+    z-index: 1000;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .top-bar .logo {
@@ -34,21 +40,62 @@ body {
     background-size: cover;
 }
 
-.top-bar .menu {
-    display: flex;
-    align-items: center;
+.top-bar .title {
+    font-size: 20px;
+    font-weight: bold;
     margin-left: 10px;
 }
 
-.top-bar .menu button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 16px;
+.top-bar .menu {
+    display: inline-block;
+    position: relative;
 }
 
-.top-bar .menu button:hover {
-    opacity: 0.8;
+.top-bar .menu .menu-title {
+    background-color: white;
+    color: #007bff;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.top-bar .menu .menu-title:hover {
+    background-color: #f0f0f0;
+}
+
+/* 菜单展开项 */
+.menu-options {
+    display: none;
+    position: absolute;
+    top: 45px;  /* 增加与上方的间距 */
+    left: 50%;   /* 将展开项的左边对齐到父元素的中间 */
+    transform: translateX(-70%);  /* 水平居中对齐 */
+    background-color: white;
+    width: 120px;  /* 设置展开项的宽度 */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    z-index: 999;
+}
+
+.menu-options .menu-item {
+    padding: 10px 20px;
+    border-radius: 5px;
+    color: gray;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.menu-options .menu-item:hover {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
+/* 鼠标悬停显示菜单项 */
+.menu:hover .menu-options {
+    display: block;
 }
 
 /* 侧边栏样式 */
@@ -59,11 +106,12 @@ body {
     display: flex;
     flex-direction: column;
     padding-top: 20px;
-    position: fixed; /* Fixed定位在页面左侧 */
-    top: 60px; /* 避免顶部边栏遮挡 */
+    position: fixed;
+    top: 60px;
     bottom: 0;
-    z-index: 500; /* 确保侧边栏位于顶部边栏下面 */
-    transition: width 0.3s;
+    z-index: 500;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
+    transition: width 0.3s ease;
 }
 
 .sidebar a {
@@ -72,9 +120,10 @@ body {
     padding: 15px 20px;
     display: block;
     font-size: 18px;
-    transition: background-color 0.3s;
     border-radius: 8px;
+    transition: background-color 0.3s ease;
     text-align: center;
+    margin: 5px 10px;
 }
 
 .sidebar a:hover, .sidebar a.active {
@@ -84,39 +133,12 @@ body {
 /* 主内容区域样式 */
 .main-content {
     flex-grow: 1;
-    margin-left: 250px;  /* 给主内容留出侧边栏的宽度 */
-    padding: 20px;
+    margin-left: 250px;
+    /* padding: 20px; */
     background-color: #ffffff;
     overflow-y: auto;
-    margin-top: 60px; /* 让主内容不被顶部边栏遮挡 */
-}
-
-/* 显示/隐藏退出菜单 */
-.logout-menu {
-    display: none;
-    position: absolute;
-    top: 60px;
-    right: 20px;
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 10px;
-    border-radius: 5px;
-    min-width: 50px;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.3s ease, visibility 0s 0.3s; 
-}
-
-.logout-menu.show {
-    display: block;
-    opacity: 1;
-    visibility: visible;
-    transition: opacity 0.3s ease, visibility 0s 0s; 
-}
-
-.menu button:focus + .logout-menu {
-    display: block;
+    margin-top: 60px;
+    transition: background-color 0.3s ease;
 }
 
 /* iframe样式 */
@@ -130,13 +152,14 @@ iframe {
 #theme-toggle {
     background-color: transparent;
     border: none;
-    font-size: 24px; /* 调整符号大小 */
+    font-size: 24px;
     color: white;
     cursor: pointer;
     padding: 15px 20px;
-    margin-top: auto; /* 将按钮固定到侧边栏底部 */
+    margin-top: auto;
     text-align: center;
     display: block;
+    transition: opacity 0.3s ease;
 }
 
 #theme-toggle:hover {
@@ -144,26 +167,40 @@ iframe {
 }
 
 body.dark-mode {
-    background-color: #2d2d2d; /* 深色背景 */
-    color: white; /* 白色文字 */
+    background-color: #2d2d2d;
+    color: white;
 }
 
 body.dark-mode .top-bar {
-    background-color: #444; /* 深色顶部边栏 */
+    background-color: #444;
 }
 
 body.dark-mode .sidebar {
-    background-color: #222; /* 深色侧边栏 */
+    background-color: #222;
 }
 
 body.dark-mode .sidebar a {
-    background-color: #333; /* 深色菜单项 */
+    background-color: #333;
 }
 
 body.dark-mode .sidebar a:hover {
-    background-color: #007bff; /* 深色模式下的 hover 效果 */
+    background-color: #007bff;
 }
 
 body.dark-mode .main-content {
-    background-color: #333; /* 深色主内容背景 */
+    background-color: #333;
+}
+
+@media screen and (max-width: 768px) {
+    .sidebar {
+        width: 200px;
+    }
+    
+    .main-content {
+        margin-left: 200px;
+    }
+    
+    .top-bar {
+        padding: 0 20px;
+    }
 }

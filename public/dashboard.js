@@ -2,27 +2,6 @@
 const menuButton = document.getElementById('menu-button');
 const logoutMenu = document.getElementById('logout-menu');
 
-// 鼠标悬停时显示菜单，离开时隐藏菜单
-menuButton.addEventListener('mouseenter', function() {
-    logoutMenu.classList.add('show');
-});
-
-logoutMenu.addEventListener('mouseenter', function() {
-    logoutMenu.classList.add('show');
-});
-
-menuButton.addEventListener('mouseleave', function() {
-    setTimeout(() => {
-        if (!logoutMenu.matches(':hover')) {
-            logoutMenu.classList.remove('show');
-        }
-    }, 200);
-});
-
-logoutMenu.addEventListener('mouseleave', function() {
-    logoutMenu.classList.remove('show');
-});
-
 // 加载外部网页到iframe
 function loadPage(url) {
   const iframe = document.getElementById('content-frame');
