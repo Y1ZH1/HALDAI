@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>控制面板</title>
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+
+    <!-- 顶部边栏 -->
+    <div class="top-bar">
+        <div class="logo"></div>
+        <div class="title">青少年体态检测管理系统</div>
+        <div class="menu" id="menu">
+            <div class="menu-title">菜单</div>
+            <div class="menu-options" id="menu-options">
+                <div class="menu-item" onclick="loadPage('./boardPages/main.html')">设置</div>
+                <div class="menu-item" onclick="logout()">退出登录</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 侧边栏内容保持不变 -->
+    <div class="sidebar">
+        <a href="#UserInfo" class="sidebar-item" id="UserInfo" onclick="loadPage('./boardPages/userInfo.html')">用户信息</a>
+        <a href="#" class="sidebar-item" id="item2" onclick="loadPage('./boardPages/main.html')">骨骼点</a>
+        <a href="#" class="sidebar-item" id="item3" onclick="loadPage('./boardPages/main.html')">体态问题</a>
+        <a href="#" class="sidebar-item" id="item4" onclick="loadPage('./boardPages/main.html')">芸迹</a>
+        <a href="#" class="sidebar-item" id="item5" onclick="loadPage('https://www.baidu.com/')">调查问卷</a>
+        
+        <!-- 太阳/月亮切换按钮 -->
+        <button id="theme-toggle" class="sidebar-item">
+            &#x2600; <!-- 太阳符号 -->
+        </button>
+    </div>
+
+    <!-- 右侧主内容 -->
+    <div class="main-content" id="main-content">
+        <iframe id="content-frame" src="" frameborder="0"></iframe>
+    </div>
+
+    <script src="dashboard.js"></script>
+</body>
+</html>

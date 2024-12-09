@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>注册</title>
+  <link rel="stylesheet" href="css/login.css">
+</head>
+<body>
+  <div class="container">
+    <h2>注册</h2>
+    <form id="registerForm" action="/register" method="POST">
+      <input type="text" id="username" name="username" placeholder="用户名" required>
+      
+      <input type="password" id="password" name="password" placeholder="密码" required 
+             pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$" 
+             title="密码必须包含至少一个字母、一个数字，并且至少6个字符长">
+
+      <!-- 添加确认密码项，使用 pattern 进行验证 -->
+      <input type="password" id="confirmPassword" name="confirmPassword" placeholder="确认密码" required
+             pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$"
+             title="确认密码必须和密码一致" 
+             oninput="this.setCustomValidity(this.value !== document.getElementById('password').value ? '密码不一致' : '')">
+
+      <button type="submit">注册</button>
+    </form>
+    <p><a href="/login">已有账号？去登录</a></p>
+  </div>
+</body>
+<script src="login.js"></script>
+</html>
