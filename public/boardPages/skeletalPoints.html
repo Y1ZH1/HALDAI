@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>高低肩检测</title>
+
+    <link rel="stylesheet" href="../css/skeletalPoints.css" type="text/css">
+</head>
+
+<body>
+
+    <div class="detection-title">
+        <span>高</span>
+        <span>低</span>
+        <span>肩</span>
+        <span>检</span>
+        <span>测</span>
+    </div>
+    <!-- 高低肩检测模块 -->
+    <div class="detection-container">
+        <div class="upload-section">
+            <input type="file" id="fileInput" accept="image/*" class="file-input">
+            <button class="upload-btn" onclick="document.getElementById('fileInput').click()">
+                选择图片
+            </button>
+        </div>
+
+        <div class="image-section">
+            <div class="image-container">
+                <h3>原始图片</h3>
+                <img id="originalImage" class="preview-image" src="../pic/skeletalPoints/default.png" alt="请选择图片">
+            </div>
+            
+            <div class="image-container">
+                <h3>检测结果图</h3>
+                <img id="processedImage" class="preview-image" src="../pic/skeletalPoints/default.png" alt="等待处理">
+            </div>
+            
+            <div class="result-container">
+                <h3>检测结果</h3>
+                <div class="result-box">
+                    <h4>肩部倾斜角度</h4>
+                    <p id="angleResult">待检测</p>
+                </div>
+                <div class="result-box">
+                    <h4>评估建议</h4>
+                    <p id="textResult">请上传图片进行检测</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 在高低肩检测模块后添加一个分隔线和驼背检测模块 -->
+    <hr class="separator">
+
+    <!-- 驼背检测模块标题 -->
+    <div class="detection-title">
+        <span>驼</span>
+        <span>背</span>
+        <span>检</span>
+        <span>测</span>
+    </div>
+
+    <!-- 驼背检测模块 -->
+    <div class="detection-container">
+        <div class="upload-section">
+            <input type="file" id="fileInput2" accept="image/*" class="file-input">
+            <button class="upload-btn" onclick="document.getElementById('fileInput2').click()">
+                选择图片
+            </button>
+        </div>
+
+        <div class="image-section">
+            <div class="image-container">
+                <h3>原始图片</h3>
+                <img id="originalImage2" class="preview-image" src="../pic/skeletalPoints/default.png" alt="请选择图片">
+            </div>
+            
+            <div class="image-container">
+                <h3>检测结果图</h3>
+                <img id="processedImage2" class="preview-image" src="../pic/skeletalPoints/default.png" alt="等待处理">
+            </div>
+            
+            <div class="result-container">
+                <h3>检测结果</h3>
+                <div class="result-box">
+                    <h4>脊柱弯曲程度度</h4>
+                    <p id="angleResult2">待检测</p>
+                </div>
+                <div class="result-box">
+                    <h4>评估建议</h4>
+                    <p id="textResult2">请上传图片进行检测</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 图片预览功能
+        document.getElementById('fileInput').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // 立即显示用户上传的原始图片
+                    document.getElementById('originalImage').src = e.target.result;
+                    
+                    // 显示"处理中"的提示
+                    document.getElementById('processedImage').src = '../pic/loading.png';  // 可选：添加加载中的图片
+                    document.getElementById('angleResult').textContent = "处理中...";
+                    document.getElementById('textResult').textContent = "正在分析图片，请稍候...";
+                    
+                    // 延迟3秒后显示结果
+                    setTimeout(function() {
+                        // 显示预设的结果图片
+                        document.getElementById('processedImage').src = '../pic/skeletalPoints/result1.png';
+                        // 显示固定的检测结果
+                        document.getElementById('angleResult').textContent = "2°";
+                        document.getElementById('textResult').textContent = 
+                            "肩部倾斜程度轻微，建议保持良好坐姿，适当进行肩部运动。";
+                    }, 3000); // 3000毫秒 = 3秒
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // 驼背检测
+        document.getElementById('fileInput2').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // 立即显示用户上传的原始图片
+                    document.getElementById('originalImage2').src = e.target.result;
+                    
+                    // 显示"处理中"的提示
+                    document.getElementById('processedImage2').src = '../pic/loading.png';  // 可选：添加加载中的图片
+                    document.getElementById('angleResult2').textContent = "处理中...";
+                    document.getElementById('textResult2').textContent = "正在分析图片，请稍候...";
+                    
+                    // 延迟3秒后显示结果
+                    setTimeout(function() {
+                        // 显示预设的结果图片
+                        document.getElementById('processedImage2').src = '../pic/skeletalPoints/result2.png';
+                        // 显示固定的检测结果
+                        document.getElementById('angleResult2').textContent = "轻微";
+                        document.getElementById('textResult2').textContent = 
+                            "脊柱弯曲程度轻微，建议保持良好坐姿和运动习惯。";
+                    }, 3000); // 3000毫秒 = 3秒
+                }
+                reader.readAsDataURL(file);
+            }
+        });
+    </script>
+</body>
+</html>
