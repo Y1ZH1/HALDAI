@@ -6,7 +6,7 @@
     <meta charset="UTF-8">
     <title>高低肩检测</title>
 
-    <link rel="stylesheet" href="./css/test.css" type="text/css">
+    <link rel="stylesheet" href="../css/test.css" type="text/css">
 </head>
 
 <body>
@@ -30,12 +30,12 @@
         <div class="image-section">
             <div class="image-container">
                 <h3>原始图片</h3>
-                <img id="originalImage" class="preview-image" src="./pic/default.png" alt="请选择图片">
+                <img id="originalImage" class="preview-image" src="../pic/default.png" alt="请选择图片">
             </div>
             
             <div class="image-container">
                 <h3>检测结果图</h3>
-                <img id="processedImage" class="preview-image" src="./pic/default.png" alt="等待处理">
+                <img id="processedImage" class="preview-image" src="../pic/default.png" alt="等待处理">
             </div>
             
             <div class="result-container">
@@ -75,12 +75,12 @@
         <div class="image-section">
             <div class="image-container">
                 <h3>原始图片</h3>
-                <img id="originalImage2" class="preview-image" src="./pic/default.png" alt="请选择图片">
+                <img id="originalImage2" class="preview-image" src="../pic/default.png" alt="请选择图片">
             </div>
             
             <div class="image-container">
                 <h3>检测结果图</h3>
-                <img id="processedImage2" class="preview-image" src="./pic/default.png" alt="等待处理">
+                <img id="processedImage2" class="preview-image" src="../pic/default.png" alt="等待处理">
             </div>
             
             <div class="result-container">
@@ -108,14 +108,14 @@
                     document.getElementById('originalImage').src = e.target.result;
                     
                     // 显示"处理中"的提示
-                    document.getElementById('processedImage').src = './pic/loading.png';  // 可选：添加加载中的图片
+                    document.getElementById('processedImage').src = '../pic/loading.png';  // 可选：添加加载中的图片
                     document.getElementById('angleResult').textContent = "处理中...";
                     document.getElementById('textResult').textContent = "正在分析图片，请稍候...";
                     
                     // 延迟3秒后显示结果
                     setTimeout(function() {
                         // 显示预设的结果图片
-                        document.getElementById('processedImage').src = './pic/result1.png';
+                        document.getElementById('processedImage').src = '../pic/result1.png';
                         // 显示固定的检测结果
                         document.getElementById('angleResult').textContent = "2°";
                         document.getElementById('textResult').textContent = 
@@ -136,14 +136,14 @@
                     document.getElementById('originalImage2').src = e.target.result;
                     
                     // 显示"处理中"的提示
-                    document.getElementById('processedImage2').src = './pic/loading.png';  // 可选：添加加载中的图片
+                    document.getElementById('processedImage2').src = '../pic/loading.png';  // 可选：添加加载中的图片
                     document.getElementById('angleResult2').textContent = "处理中...";
                     document.getElementById('textResult2').textContent = "正在分析图片，请稍候...";
                     
                     // 延迟3秒后显示结果
                     setTimeout(function() {
                         // 显示预设的结果图片
-                        document.getElementById('processedImage2').src = './pic/result2.png';
+                        document.getElementById('processedImage2').src = '../pic/result2.png';
                         // 显示固定的检测结果
                         document.getElementById('angleResult2').textContent = "轻微";
                         document.getElementById('textResult2').textContent = 
