@@ -3,9 +3,9 @@ const mysql = require('mysql2');
 
 // 创建 MySQL 连接池
 const db = mysql.createPool({
-  host: '127.0.0.1',
-  user: 'root',
-  password: '123456',
+  host: '8.130.53.139',
+  user: 'mydb',
+  password: 'zRDfAEEMGChfx4K8',
   database: 'mydb'
 });
 
