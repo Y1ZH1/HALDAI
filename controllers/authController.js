@@ -18,7 +18,8 @@ const register = async (req, res) => {
 
         console.log(`INFO: 用户“${username}”注册成功`);
         res.status(201).json({ message: '用户注册成功' });
-    } catch (err) {
+    } 
+    catch (err) {
         res.status(500).json({ message: '服务器错误' });
     }
 };
