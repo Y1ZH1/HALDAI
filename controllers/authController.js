@@ -1,25 +1,35 @@
 // controllers/authController.js
+
+const { v4: uuidv4 } = require('uuid');
 const bcrypt = require('bcryptjs');
 const { JWT } = require('../middlewares/authMiddleware');
 const db = require('../config/db');
 
 // 注册接口
+
 const register = async (req, res) => {
-    console.log("INFO: 收到注册请求"); // 确认服务器收到了请求
+    console.log("INFO: 收到注册请求");
     const { username, password } = req.body;
+    const created_at = new Date(); // 获取当前时间戳
     try {
         const [results] = await db.promise().query('SELECT * FROM userinfo WHERE username = ?', [username]);
         if (results.length > 0) {
             return res.status(400).json({ message: '用户名已存在' });
         }
 
-        const hashedPassword = await bcrypt.hash(password, 10);
-        await db.promise().query('INSERT INTO userinfo (username, password) VALUES (?, ?)', [username, hashedPassword]);
+        const uuid = uuidv4(); // 生成UUID
+        const hashedPassword = await bcrypt.hash(password, 10); //密码哈希处理
+        await db.promise().query(
+            'INSERT INTO userinfo (uuid, username, password, created_at) VALUES (?, ?, ?, ?)', 
+            [uuid, username, hashedPassword, created_at]
+        );
 
-        console.log(`INFO: 用户“${username}”注册成功`);
-        res.status(201).json({ message: '用户注册成功' });
-    } 
-    catch (err) {
+        console.log(`INFO: 用户"${username}"注册成功，UUID为${uuid}`);
+        res.status(201).json({ 
+            message: '用户注册成功',
+        });
+    } catch (err) {
+        console.error('注册错误:', err);
         res.status(500).json({ message: '服务器错误' });
     }
 };
@@ -43,6 +53,9 @@ const login = async (req, res) => {
             return res.status(401).json({ message: '密码错误' });
         }
 
+        //更新最后登录时间
+        const last_login = new Date(); // 获取当前时间戳
+        await db.promise().query('UPDATE userinfo SET last_login = ? WHERE username = ?', [last_login, username]);
         console.log(`INFO: 用户“${username}”登录成功`);
         const token = JWT.createToken({ id: user.id, username: user.username }, '1h');
         res.send({ code: 200, msg: '登录成功', data: { token } })
