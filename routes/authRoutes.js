@@ -1,7 +1,9 @@
 // routes/authRoutes.js
 const express = require('express');
+const db = require('../config/db');
 const router = express.Router();
 const authController = require('../controllers/authController');
+const apiController = require('../controllers/apiController');
 const { authenticateToken } = require('../middlewares/authMiddleware');
 const path = require('path');
 
@@ -19,11 +21,14 @@ router.post('/login', authController.login);
 
 // 保护的路由
 router.get('/user', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'public/user_dashboard.html'));
+    res.sendFile(path.join(__dirname, '..', 'public/user_dashboard.html'));
 });
 
 router.get('/admin', (req, res) => {
-  res.sendFile(path.join(__dirname, '..', 'public/admin_dashboard.html'));
+    res.sendFile(path.join(__dirname, '..', 'public/admin_dashboard.html'));
 });
+
+//api路由
+router.get('/api/get_user_info', authenticateToken, apiController.get_user_info);
 
 module.exports = router;

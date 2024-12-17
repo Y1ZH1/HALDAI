@@ -69,11 +69,15 @@ body {
 .menu-options {
     display: none;
     position: absolute;
-    top: 45px;  /* 增加与上方的间距 */
-    left: 50%;   /* 将展开项的左边对齐到父元素的中间 */
-    transform: translateX(-70%);  /* 水平居中对齐 */
+    top: 45px;
+    /* 增加与上方的间距 */
+    left: 50%;
+    /* 将展开项的左边对齐到父元素的中间 */
+    transform: translateX(-70%);
+    /* 水平居中对齐 */
     background-color: white;
-    width: 120px;  /* 设置展开项的宽度 */
+    width: 120px;
+    /* 设置展开项的宽度 */
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     border-radius: 5px;
     z-index: 999;
@@ -126,7 +130,8 @@ body {
     margin: 5px 10px;
 }
 
-.sidebar a:hover, .sidebar a.active {
+.sidebar a:hover,
+.sidebar a.active {
     background-color: #007bff;
 }
 
@@ -195,11 +200,11 @@ body.dark-mode .main-content {
     .sidebar {
         width: 200px;
     }
-    
+
     .main-content {
         margin-left: 200px;
     }
-    
+
     .top-bar {
         padding: 0 20px;
     }

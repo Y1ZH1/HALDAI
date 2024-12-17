@@ -1,4 +1,5 @@
-body, html {
+body,
+html {
     height: 100%;
     margin: 0;
     font-family: Arial, sans-serif;
@@ -6,8 +7,10 @@ body, html {
     justify-content: center;
     align-items: center;
     background: url('../pic/bg.png') no-repeat center center;
-    background-size: cover; /* 保证背景图像总是覆盖整个页面 */
-    background-attachment: fixed; /* 背景图像固定，避免滚动时错位 */
+    background-size: cover;
+    /* 保证背景图像总是覆盖整个页面 */
+    background-attachment: fixed;
+    /* 背景图像固定，避免滚动时错位 */
 }
 
 .container {

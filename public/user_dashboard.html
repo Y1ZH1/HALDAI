@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>控制面板</title>
     <link rel="stylesheet" href="css/dashboard.css">
 </head>
+
 <body>
 
     <!-- 顶部边栏 -->
@@ -24,11 +26,12 @@
     <!-- 侧边栏内容保持不变 -->
     <div class="sidebar">
         <a href="#UserInfo" class="sidebar-item" id="UserInfo" onclick="loadPage('./boardPages/userInfo.html')">用户信息</a>
-        <a href="#SkeletalPoints" class="sidebar-item" id="item2" onclick="loadPage('./boardPages/skeletalPoints.html')">骨骼点</a>
+        <a href="#SkeletalPoints" class="sidebar-item" id="item2"
+            onclick="loadPage('./boardPages/skeletalPoints.html')">骨骼点</a>
         <a href="#Posture" class="sidebar-item" id="item3" onclick="loadPage('./boardPages/main.html')">体态问题</a>
         <a href="#TraceMap" class="sidebar-item" id="item4" onclick="loadPage('./boardPages/main.html')">芸迹</a>
         <a href="#Survey" class="sidebar-item" id="item5" onclick="loadPage('https://www.baidu.com/')">调查问卷</a>
-        
+
         <!-- 太阳/月亮切换按钮 -->
         <button id="theme-toggle" class="sidebar-item">
             &#x2600; <!-- 太阳符号 -->
@@ -42,4 +45,5 @@
 
     <script src="js/dashboard.js"></script>
 </body>
+
 </html>

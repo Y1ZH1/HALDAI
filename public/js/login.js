@@ -6,24 +6,30 @@ document.addEventListener('DOMContentLoaded', () => {
     if (registerForm) {
         registerForm.addEventListener('submit', async (event) => {
             event.preventDefault();  // 阻止默认表单提交
-            
+
+            const name = registerForm.name.value;
             const username = registerForm.username.value;
             const password = registerForm.password.value;
+            const confirmPassword = registerForm.confirmPassword.value;
+            const gender = registerForm.gender.value;
+            const phone = registerForm.phone.value;
+            const birthdate = registerForm.birthdate.value;
+
 
             if (!registerForm.checkValidity()) {
                 alert("请确保密码和确认密码一致！");
                 return;
             }
-            
+
             try {
                 const response = await fetch('/register', {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ username, password })
+                    body: JSON.stringify({ name, username, password, confirmPassword, gender, phone, birthdate })
                 });
-                
+
                 const result = await response.json();
                 if (response.ok) {
                     alert(result.message);  // 用户注册成功
@@ -44,10 +50,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (loginForm) {
         loginForm.addEventListener('submit', async (event) => {
             event.preventDefault();
-            
+
             const username = loginForm.username.value;
             const password = loginForm.password.value;
-            
+
             try {
                 const response = await fetch('/login', {
                     method: 'POST',
@@ -56,7 +62,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     },
                     body: JSON.stringify({ username, password })
                 });
-                
+
                 const result = await response.json();
                 if (response.ok) {
                     alert('登录成功');
@@ -79,9 +85,9 @@ document.addEventListener('DOMContentLoaded', () => {
     // 检查用户是否已登录，若没有 token 或 token 无效，重定向到登录页面
     if (window.location.pathname === '/user') {
         console.log('进入dashboard');   //DEBUG
-        
+
         const token = localStorage.getItem('token');
-        
+
         if (!token) {
             console.log('没有Token');
             // 没有 token，重定向到登录页面
@@ -96,16 +102,16 @@ document.addEventListener('DOMContentLoaded', () => {
                     'Authorization': `Bearer ${token}`  // 添加 Authorization 头部发送 token
                 }
             })
-            .then(response => {
-                if (!response.ok) {
-                    // 如果 token 无效，重定向到登录页面
+                .then(response => {
+                    if (!response.ok) {
+                        // 如果 token 无效，重定向到登录页面
+                        window.location.href = '/login';
+                    }
+                })
+                .catch(error => {
+                    console.error('验证 token 时出错:', error);
                     window.location.href = '/login';
-                }
-            })
-            .catch(error => {
-                console.error('验证 token 时出错:', error);
-                window.location.href = '/login';
-            });
+                });
         }
     }
 });

@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>控制面板-管理员</title>
     <link rel="stylesheet" href="../css/dashboard.css">
 </head>
+
 <body>
 
     <!-- 顶部边栏 -->
@@ -23,11 +25,12 @@
 
     <!-- 侧边栏内容保持不变 -->
     <div class="sidebar">
-        <a href="#UserInfo" class="sidebar-item" id="UserInfo" onclick="loadPage('./boardPages/adminInfo.html')">管理员信息</a>
+        <a href="#UserInfo" class="sidebar-item" id="UserInfo"
+            onclick="loadPage('./boardPages/adminInfo.html')">管理员信息</a>
         <a href="#StudentsManage" class="sidebar-item" id="item2" onclick="loadPage('./boardPages/main.html')">学生管理</a>
         <a href="#" class="sidebar-item" id="item4" onclick="loadPage('./boardPages/main.html')">体态异常学生</a>
         <a href="#" class="sidebar-item" id="item3" onclick="loadPage('./boardPages/main.html')">体态信息汇总</a>
-        
+
         <!-- 太阳/月亮切换按钮 -->
         <button id="theme-toggle" class="sidebar-item">
             &#x2600; <!-- 太阳符号 -->
@@ -39,6 +42,7 @@
         <iframe id="content-frame" src="" frameborder="0"></iframe>
     </div>
 
-    <script src="js/dashboard.js"></script> 
+    <script src="js/dashboard.js"></script>
 </body>
+
 </html>

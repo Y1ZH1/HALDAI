@@ -22,7 +22,8 @@
     <div class="detection-container">
         <div class="upload-section">
             <input type="file" id="fileInput" accept="image/*" class="file-input">
-            <button class="upload-btn" onclick="document.getElementById('fileInput').click(),displayLinkBasedOnCondition()">
+            <button class="upload-btn"
+                onclick="document.getElementById('fileInput').click(),displayLinkBasedOnCondition()">
                 选择图片
             </button>
         </div>
@@ -32,12 +33,12 @@
                 <h3>原始图片</h3>
                 <img id="originalImage" class="preview-image" src="../pic/skeletalPoints/default.png" alt="请选择图片">
             </div>
-            
+
             <div class="image-container">
                 <h3>检测结果图</h3>
                 <img id="processedImage" class="preview-image" src="../pic/skeletalPoints/default.png" alt="等待处理">
             </div>
-            
+
             <div class="result-container">
                 <h3>检测结果</h3>
                 <div class="result-box">
@@ -78,12 +79,12 @@
                 <h3>原始图片</h3>
                 <img id="originalImage2" class="preview-image" src="../pic/skeletalPoints/default.png" alt="请选择图片">
             </div>
-            
+
             <div class="image-container">
                 <h3>检测结果图</h3>
                 <img id="processedImage2" class="preview-image" src="../pic/skeletalPoints/default.png" alt="等待处理">
             </div>
-            
+
             <div class="result-container">
                 <h3>检测结果</h3>
                 <div class="result-box">
@@ -102,7 +103,7 @@
         // 图片预览功能
         function displayLinkBasedOnCondition() {
             // 使用 setTimeout 延迟执行显示链接的逻辑
-            setTimeout(function() {
+            setTimeout(function () {
                 // 定义条件和对应的链接
                 var condition = true; // 这里应该放置你的条件判断逻辑
                 var linkUrl, linkText;
@@ -133,26 +134,26 @@
                 container.appendChild(a);
             }, 4500); // 3000 毫秒 = 3 秒
         }
-        document.getElementById('fileInput').addEventListener('change', function(e) {
+        document.getElementById('fileInput').addEventListener('change', function (e) {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     // 立即显示用户上传的原始图片
                     document.getElementById('originalImage').src = e.target.result;
-                    
+
                     // 显示"处理中"的提示
                     document.getElementById('processedImage').src = '../pic/loading.png';  // 可选：添加加载中的图片
                     document.getElementById('angleResult').textContent = "处理中...";
                     document.getElementById('textResult').textContent = "正在分析图片，请稍候...";
-                    
+
                     // 延迟3秒后显示结果
-                    setTimeout(function() {
+                    setTimeout(function () {
                         // 显示预设的结果图片
                         document.getElementById('processedImage').src = '../pic/skeletalPoints/result1.png';
                         // 显示固定的检测结果
                         document.getElementById('angleResult').textContent = "2°";
-                        document.getElementById('textResult').textContent = 
+                        document.getElementById('textResult').textContent =
                             "肩部倾斜程度轻微，建议保持良好坐姿，适当进行肩部运动。";
                     }, 3000); // 3000毫秒 = 3秒
                 }
@@ -161,26 +162,26 @@
         });
 
         // 驼背检测
-        document.getElementById('fileInput2').addEventListener('change', function(e) {
+        document.getElementById('fileInput2').addEventListener('change', function (e) {
             const file = e.target.files[0];
             if (file) {
                 const reader = new FileReader();
-                reader.onload = function(e) {
+                reader.onload = function (e) {
                     // 立即显示用户上传的原始图片
                     document.getElementById('originalImage2').src = e.target.result;
-                    
+
                     // 显示"处理中"的提示
                     document.getElementById('processedImage2').src = '../pic/loading.png';  // 可选：添加加载中的图片
                     document.getElementById('angleResult2').textContent = "处理中...";
                     document.getElementById('textResult2').textContent = "正在分析图片，请稍候...";
-                    
+
                     // 延迟3秒后显示结果
-                    setTimeout(function() {
+                    setTimeout(function () {
                         // 显示预设的结果图片
                         document.getElementById('processedImage2').src = '../pic/skeletalPoints/result2.png';
                         // 显示固定的检测结果
                         document.getElementById('angleResult2').textContent = "轻微";
-                        document.getElementById('textResult2').textContent = 
+                        document.getElementById('textResult2').textContent =
                             "脊柱弯曲程度轻微，建议保持良好坐姿和运动习惯。\n无需纠正。";
                     }, 3000); // 3000毫秒 = 3秒
                 }
@@ -189,4 +190,5 @@
         });
     </script>
 </body>
+
 </html>

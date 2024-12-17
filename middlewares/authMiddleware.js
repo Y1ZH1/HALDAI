@@ -1,15 +1,15 @@
 // middlewares/authMiddleware.js
 const jwt = require('jsonwebtoken');
-const secret = "xawlttjc"   //解密密钥
+const config = require("../config/config.json");   //解密密钥
 
 const JWT = {
     createToken: (data, time) => {
-        return jwt.sign(data, secret, { expiresIn: time })
+        return jwt.sign(data, config.JWT_key, { expiresIn: time })
     },
     verifyToken: (token) => {
         // 如果token过期或验证失败，将返回false
         try {
-            return jwt.verify(token, secret)
+            return jwt.verify(token, config.JWT_key)
         } catch (error) {
             return false
         }
@@ -19,8 +19,6 @@ const JWT = {
 const authenticateToken = (req, res, next) => {
     // 从请求头中获取 token
     const token = req.headers['authorization']?.split(' ')[1];
-
-    console.log('Token: ' + token);
 
     if (!token) {
         return res.status(401).json({ message: 'Token is required' });

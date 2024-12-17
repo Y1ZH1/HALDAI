@@ -4,33 +4,33 @@ const logoutMenu = document.getElementById('logout-menu');
 
 // 加载外部网页到iframe
 function loadPage(url) {
-  const iframe = document.getElementById('content-frame');
-  const defaultContent = document.getElementById('default-content');
+    const iframe = document.getElementById('content-frame');
+    const defaultContent = document.getElementById('default-content');
 
-  // 确保 iframe 元素存在
-  if (iframe) {
-      iframe.style.display = 'block';
-      iframe.src = url;
-  }
+    // 确保 iframe 元素存在
+    if (iframe) {
+        iframe.style.display = 'block';
+        iframe.src = url;
+    }
 
-  // 更新侧边栏选中的项
-  const sidebarItems = document.querySelectorAll('.sidebar-item');
-  sidebarItems.forEach(item => item.classList.remove('active'));
-  
-  // 确保选中项存在
-  const selectedItem = document.querySelector(`.sidebar-item[href*="${url}"]`);
-  if (selectedItem) {
-      selectedItem.classList.add('active');
-  }
+    // 更新侧边栏选中的项
+    const sidebarItems = document.querySelectorAll('.sidebar-item');
+    sidebarItems.forEach(item => item.classList.remove('active'));
+
+    // 确保选中项存在
+    const selectedItem = document.querySelector(`.sidebar-item[href*="${url}"]`);
+    if (selectedItem) {
+        selectedItem.classList.add('active');
+    }
 }
 
 // 页面加载时确保默认选中第一个菜单项并加载相应内容
-window.onload = function() {
-  const firstItem = document.getElementById('UserInfo'); // 获取 UserInfo页
-  if (firstItem) {
-      // 获取 UserInfo 的 href 属性，并加载页面
-      loadPage(firstItem.getAttribute('onclick').match(/'([^']+)'/)[1]);
-  }
+window.onload = function () {
+    const firstItem = document.getElementById('UserInfo'); // 获取 UserInfo页
+    if (firstItem) {
+        // 获取 UserInfo 的 href 属性，并加载页面
+        loadPage(firstItem.getAttribute('onclick').match(/'([^']+)'/)[1]);
+    }
 };
 
 // 退出登录逻辑
@@ -39,6 +39,7 @@ function logout() {
 
     if (isConfirmed) {
         // TODO: 需要删除token的逻辑
+        localStorage.removeItem('token');  // 删除 token
         window.location.href = '/login';
     } else {
         console.log("用户取消退出登录");
@@ -48,10 +49,10 @@ function logout() {
 // 侧边栏鼠标悬停效果
 const sidebarItems = document.querySelectorAll('.sidebar-item');
 sidebarItems.forEach(item => {
-    item.addEventListener('mouseenter', function() {
+    item.addEventListener('mouseenter', function () {
         item.style.backgroundColor = '#007bff';
     });
-    item.addEventListener('mouseleave', function() {
+    item.addEventListener('mouseleave', function () {
         if (!item.classList.contains('active')) {
             item.style.backgroundColor = '';
         }
@@ -69,9 +70,9 @@ if (localStorage.getItem('theme') === 'dark') {
 }
 
 // 切换日夜模式
-themeToggleButton.addEventListener('click', function() {
+themeToggleButton.addEventListener('click', function () {
     body.classList.toggle('dark-mode');
-    
+
     // 切换符号
     if (body.classList.contains('dark-mode')) {
         themeToggleButton.innerHTML = '&#x263E;'; // 月亮符号
