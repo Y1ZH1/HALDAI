@@ -64,4 +64,55 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     fetchUserInfo();
+
+    const editBtn = document.getElementById('edit-info-btn');
+    const modal = document.getElementById('edit-modal');
+    const closeModalBtn = document.getElementById('close-modal');
+    const submitButtons = document.querySelectorAll('.submit-btn');
+
+    // 打开交互框
+    editBtn.addEventListener('click', () => {
+        modal.style.display = 'flex';
+    });
+
+    // 关闭交互框
+    closeModalBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    // 提交表单数据
+    submitButtons.forEach(button => {
+        button.addEventListener('click', async (e) => {
+            const field = e.target.dataset.field;
+            const input = document.getElementById(`edit-${field}`);
+            const value = input.value.trim();
+
+            if (value === '') {
+                alert('请输入有效数据');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/set_user_info', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ field, value, token }),
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    alert('提交成功');
+                    location.reload();
+                } else {
+                    alert('提交失败');
+                    console.log('错误: ' + result.message);
+                }
+            } catch (error) {
+                console.error(error);
+                alert('网络错误');
+            }
+        });
+    });
 });

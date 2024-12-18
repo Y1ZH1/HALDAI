@@ -1,3 +1,33 @@
+//未登录时退出
+document.addEventListener('DOMContentLoaded', async () => {
+    const token = localStorage.getItem('token'); 
+    if (!token) {
+        console.error('未找到token');
+        window.location.href = '/login';
+        return;
+    }
+    try {
+        const response = await fetch('/api/varify_token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ token })
+        });
+        console.log('token: ' + token);
+
+        if (!response.ok) {
+            localStorage.removeItem('token');
+            alert('登录过期，请重新登陆！');
+            window.location.href = '/login';
+        }
+    } catch (error) {
+        localStorage.removeItem('token');
+        alert('身份验证出错，请重新登陆');
+        window.location.href = '/login';
+    }
+});
+
 // 获取元素
 const menuButton = document.getElementById('menu-button');
 const logoutMenu = document.getElementById('logout-menu');

@@ -29,6 +29,12 @@ router.get('/admin', (req, res) => {
 });
 
 //api路由
+
+//获取用户信息
 router.get('/api/get_user_info', authenticateToken, apiController.get_user_info);
+//设置用户信息
+router.post('/api/set_user_info', authenticateToken, apiController.set_user_info);
+//验证Token
+router.post('/api/varify_token', apiController.varify_token);
 
 module.exports = router;

@@ -1,0 +1,10 @@
+{
+    "description": "列作为可变查询参数时进行映射以防止sql注入",
+
+    "userdate_sql": {
+        "username": "name",
+        "gender": "gender",
+        "birthdate": "birthdate",
+        "tel": "tel"
+    }
+}

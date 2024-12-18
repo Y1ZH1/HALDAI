@@ -43,6 +43,71 @@
                 </div>
             </div>
         </div>
+
+        <div class="action-card">
+            <div class="action-buttons">
+                <button class="action-button" id="edit-info-btn">
+                    <img src="../pic/icon/edit.png" alt="编辑信息" class="button-icon">
+                    <span>编辑信息</span>
+                </button>
+                <button class="action-button">
+                    <img src="../pic/icon/school.png" alt="学校管理" class="button-icon">
+                    <span>学校管理</span>
+                </button>
+                <button class="action-button">
+                    <img src="../pic/icon/info.png" alt="通知提醒" class="button-icon">
+                    <span>通知提醒</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- 交互框 -->
+        <div class="modal" id="edit-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span>编辑个人信息</span>
+                    <button class="close-btn" id="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-form">
+                        <div class="form-item">
+                            <label for="edit-username">姓名:</label>
+                            <input type="text" id="edit-username" name="name" placeholder="请输入姓名">
+                            <button type="button" class="submit-btn" data-field="username">提交</button>
+                        </div>
+                        <div class="form-item">
+                            <label for="edit-gender">性别:</label>
+                            <select id="edit-gender" name="gender">
+                                <option value="男">男</option>
+                                <option value="女">女</option>
+                            </select>
+                            <button type="button" class="submit-btn" data-field="gender">提交</button>
+                        </div>
+                        <div class="form-item">
+                            <label for="edit-birthdate">生日:</label>
+                            <input type="date" id="edit-birthdate" name="birthdate">
+                            <button type="button" class="submit-btn" data-field="birthdate">提交</button>
+                        </div>
+                        <div class="form-item">
+                            <label for="edit-tel">电话:</label>
+                            <input type="text" id="edit-tel" name="phone" placeholder="请输入11位电话号码" pattern="^\d{11}$">
+                            <button type="button" class="submit-btn" data-field="tel">提交</button>
+                        </div>
+                        <!-- 学校相关信息在“学校管理中处理，和教师端交互”  -->
+                        <!-- <div class="form-item">
+                            <label for="edit-school">学校:</label>
+                            <input type="text" id="edit-school" name="school" placeholder="请输入学校">
+                            <button type="button" class="submit-btn" data-field="school">提交</button>
+                        </div> -->
+                        <!-- <div class="form-item">
+                            <label for="edit-sch-id">学号:</label>
+                            <input type="text" id="edit-sch-id" name="sch-id" placeholder="请输入学号">
+                            <button type="button" class="submit-btn" data-field="sch-id">提交</button>
+                        </div> -->
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="../js/userInfo.js"></script>
 </body>

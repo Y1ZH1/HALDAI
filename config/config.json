@@ -1,3 +1,4 @@
 {
-    "JWT_key": "xawlttjc"
+    "JWT_key": "xawlttjc",
+    "server_port": 5302
 }

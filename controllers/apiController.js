@@ -1,31 +1,14 @@
 // controllers/authController.js
 
 const { JWT } = require('../middlewares/authMiddleware');
+const mapping = require('../config/mapping.json');
 const db = require('../config/db');
 
+// 查询用户数据
 const get_user_info = async (req, res) => {
-    const token = req.headers['authorization']?.split(' ')[1];
-
-    // Token 验证
     try {
-        if (token == undefined || !JWT.verifyToken(token)) {
-            return res.status(401).json({ message: 'Token 无效' });
-        }
-    } catch (err) {
-        console.error('Token 验证错误:', err);  // 打印更详细的错误信息
-        return res.status(401).json({ message: 'Token 验证失败', error: err.message });
-    }
-
-    // 查询 token 对应的 uuid
-    try {
-        const [token_row] = await db.promise().query('SELECT uuid FROM userinfo WHERE token = ?', [token]);
-        if (!token_row || token_row.length === 0 || token_row[0].uuid == undefined) {
-            return res.status(401).json({ message: '未找到用户' });
-        }
-
-        // 查询用户数据
-        const [userdatas] = await db.promise().query('SELECT uuid, userid, name, gender, school, birthDate, tel, schoolid FROM userdata WHERE uuid = ?', [token_row[0].uuid]);
-        const user = userdatas[0];  // 获取第一个用户数据
+        const [userdatas] = await db.promise().query('SELECT name, gender, school, birthDate, tel, schoolid FROM userdata WHERE uuid = ?', [req.user.id]);
+        const user = userdatas[0];
         if (!user) {
             return res.status(404).json({ message: '用户信息未找到' });
         }
@@ -39,7 +22,7 @@ const get_user_info = async (req, res) => {
 
         // 此处字段需和前端js中fields数组内的字段一致
         const userData = {
-            userID: user.userid,
+            userID: req.user.username,
             userName: user.name,
             userGender: user.gender,
             userSchool: user.school,
@@ -51,10 +34,64 @@ const get_user_info = async (req, res) => {
         res.json(userData);
     } catch (err) {
         console.error('Database error:', err);  // 打印详细错误信息
-        return res.status(500).json({ message: '数据库查询失败', error: err.message });
+        return res.status(500).json({ message: '数据库查询失败' });
+    }
+};
+
+// 设置用户数据
+const set_user_info = async (req, res) => {
+    try {
+        // 校验请求参数
+        if (!req.body.field || !req.body.value || !req.user.id) {
+            return res.status(400).json({ message: '请求参数不完整' });
+        }
+
+        // 映射合法字段
+        const field = mapping.userdate_sql[req.body.field];
+        if (!field) {
+            return res.status(400).json({ message: '无效的字段' });
+        }
+
+        // 查询用户数据
+        const selectQuery = `SELECT ${field} FROM userdata`;
+        const userdata = await db.promise().query(selectQuery);
+
+        if (!userdata[0] || userdata[0].length === 0) {
+            return res.status(404).json({ message: '该数据项未找到' });
+        }
+
+        // 更新用户数据
+        const updateQuery = `UPDATE userdata SET ${field} = ? WHERE uuid = ?`;
+        const result = await db.promise().query(updateQuery, [req.body.value, req.user.id]);
+
+        if (!result[0] || result[0].affectedRows === 0) {
+            return res.status(400).json({ message: '更新失败' });
+        }
+
+        return res.status(200).json({ message: '更新成功' });
+    } catch (err) {
+        console.error('Database error:', err);
+        return res.status(500).json({ message: '修改失败' });
+    }
+};
+
+
+// 验证Token
+const varify_token = (req, res) => {
+    const { token } = req.body;
+    if (!token) {
+        return res.status(400).json({ valid: false, message: 'Token未提供' });
+    }
+
+    if (JWT.verifyToken(token)) {
+        res.json({ valid: true });
+    } else {
+        res.status(401).json({ valid: false, message: '无效的Token' });
     }
 };
 
 module.exports = {
-    get_user_info
+    get_user_info,
+    set_user_info,
+    varify_token
 };

@@ -86,7 +86,7 @@ const login = async (req, res) => {
             return res.status(401).json({ message: '密码错误' });
         }
 
-        const token = JWT.createToken({ id: user.id, username: user.username }, '1h');
+        const token = JWT.createToken({ id: user.uuid, username: user.username }, '1h');
         //更新最后登录时间
         const last_login = new Date(); // 获取当前时间戳
         await db.promise().query('UPDATE userinfo SET last_login = ?, token = ? WHERE username = ?', [last_login, token, username]);
