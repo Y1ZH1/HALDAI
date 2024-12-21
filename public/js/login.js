@@ -1,4 +1,5 @@
 document.addEventListener('DOMContentLoaded', () => {
+    checkLogin();
     const registerForm = document.getElementById('registerForm');
     const loginForm = document.getElementById('loginForm');
 
@@ -70,7 +71,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     localStorage.setItem('token', result.data.token);
                     loginForm.reset();  // 清空表单
                     // 登录成功后直接跳转到 dashboard 页面
-                    window.location.href = '/user';
+                    if (result.type === 'user') {
+                        window.location.href = '/user';
+                    } else if (result.type === 'manager') {
+                        window.location.href = '/manager';
+                    } else {
+                        alert('此类用户暂无法登录');
+                    }
                 } else {
                     alert(result.message);  // 用户名或密码错误
                     loginForm.reset();
@@ -82,36 +89,34 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // 检查用户是否已登录，若没有 token 或 token 无效，重定向到登录页面
-    if (window.location.pathname === '/user') {
-        console.log('进入dashboard');   //DEBUG
-
-        const token = localStorage.getItem('token');
-
-        if (!token) {
-            console.log('没有Token');
-            // 没有 token，重定向到登录页面
-            window.location.href = '/login';
-        } else {
-            console.log('Token from localStorage:', token);  //DEBUG
-
-            // 如果有 token，验证 token 是否有效
-            fetch('/user', {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`  // 添加 Authorization 头部发送 token
-                }
-            })
-                .then(response => {
-                    if (!response.ok) {
-                        // 如果 token 无效，重定向到登录页面
-                        window.location.href = '/login';
-                    }
-                })
-                .catch(error => {
-                    console.error('验证 token 时出错:', error);
-                    window.location.href = '/login';
-                });
-        }
-    }
+    
 });
+
+async function checkLogin() {
+    // 检查用户是否已登录，若有 token，重定向到dashboard页面
+    const token = localStorage.getItem('token');
+
+    try {
+        const response = await fetch('/api/varify_token', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ token })
+        });
+        const result = await response.json();
+        if (response.ok) {
+            console.log('INFO: 已登录，跳转至主页');
+            if (result.type == 'user') {
+                window.location.href = '/user';
+            } else if (result.type == 'manager') {
+                window.location.href = '/manager';
+            } else {
+                return;
+            }
+        }
+    } catch (error) {
+        localStorage.removeItem('token');
+        console.log('INFO: 已移除过期 Token');
+    }
+}

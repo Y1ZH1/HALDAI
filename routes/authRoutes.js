@@ -24,8 +24,8 @@ router.get('/user', (req, res) => {
     res.sendFile(path.join(__dirname, '..', 'public/user_dashboard.html'));
 });
 
-router.get('/admin', (req, res) => {
-    res.sendFile(path.join(__dirname, '..', 'public/admin_dashboard.html'));
+router.get('/manager', (req, res) => {
+    res.sendFile(path.join(__dirname, '..', 'public/manager_dashboard.html'));
 });
 
 //api路由
@@ -36,5 +36,10 @@ router.get('/api/get_user_info', authenticateToken, apiController.get_user_info)
 router.post('/api/set_user_info', authenticateToken, apiController.set_user_info);
 //验证Token
 router.post('/api/varify_token', apiController.varify_token);
+
+//404路由
+router.get('/*', (req, res) => {
+    res.status(404).sendFile(path.join(__dirname, '..', 'public/404.html'));
+  })
 
 module.exports = router;

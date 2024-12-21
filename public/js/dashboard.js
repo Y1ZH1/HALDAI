@@ -14,11 +14,13 @@ document.addEventListener('DOMContentLoaded', async () => {
             },
             body: JSON.stringify({ token })
         });
-        console.log('token: ' + token);
 
+        const result = await response.json();
         if (!response.ok) {
             localStorage.removeItem('token');
             alert('登录过期，请重新登陆！');
+            window.location.href = '/login';
+        } else if ('/' + result.type != window.location.pathname) {
             window.location.href = '/login';
         }
     } catch (error) {

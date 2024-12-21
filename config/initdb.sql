@@ -3,6 +3,7 @@ CREATE TABLE userinfo (
     uuid VARCHAR(36) PRIMARY KEY NOT NULL UNIQUE,
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
+    type ENUM('user', 'manager', 'admin'),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_login TIMESTAMP NULL,
     token VARCHAR(255)
