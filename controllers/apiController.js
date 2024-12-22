@@ -81,21 +81,26 @@ const set_photo = async (req, res) =>{
 }
 
 // 验证Token
-const varify_token = (req, res) => {
+const varify_token = async (req, res) => {
     const { token } = req.body;
     if (!token) {
         return res.status(400).json({ valid: false, message: 'Token未提供' });
     }
-
-    if (JWT.verifyToken(token)) {
-        res.json({ valid: true });
-    } else {
-        res.status(401).json({ valid: false, message: '无效的Token' });
+    const userinfo = JWT.verifyToken(token);
+    if (!userinfo) {
+        return res.status(401).json({ valid: false, message: 'Token 无效或已过期' });
+    }
+    //Token 有效
+    try {
+        const [results] = await db.promise().query('SELECT type FROM userinfo WHERE uuid = ?', [userinfo.id]);
+        res.json({ valid: true, type: results[0].type });
+    } catch (error) {
+        res.json({ valid: false, message: '验证失败' });
     }
 };
 
 module.exports = {
     get_user_info,
     set_user_info,
-    varify_token
+    varify_token,
 };
