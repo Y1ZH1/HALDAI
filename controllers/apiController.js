@@ -74,7 +74,11 @@ const set_user_info = async (req, res) => {
         return res.status(500).json({ message: '修改失败' });
     }
 };
-
+const set_photo = async (req, res) =>{
+    const [userdatas] = await db.promise().query('SELECT  submissionid data FROM sub WHERE uuid = ?', [req.user.id]);
+    const user = userdatas[0];
+    
+}
 
 // 验证Token
 const varify_token = (req, res) => {
