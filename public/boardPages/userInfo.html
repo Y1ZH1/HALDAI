@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>个人中心</title>
     <link rel="stylesheet" href="../css/userInfo.css">
+    <link rel="stylesheet" href="../css/modal.css">
 </head>
 
 <body>
@@ -46,7 +47,7 @@
 
         <div class="action-card">
             <div class="action-buttons">
-                <button class="action-button" id="edit-info-btn">
+                <button class="action-button">
                     <img src="../pic/icon/edit.png" alt="编辑信息" class="button-icon">
                     <span>编辑信息</span>
                 </button>
@@ -93,23 +94,72 @@
                             <input type="text" id="edit-tel" name="phone" placeholder="请输入11位电话号码" pattern="^\d{11}$">
                             <button type="button" class="submit-btn" data-field="tel">提交</button>
                         </div>
-                        <!-- 学校相关信息在“学校管理中处理，和教师端交互”  -->
-                        <!-- <div class="form-item">
-                            <label for="edit-school">学校:</label>
-                            <input type="text" id="edit-school" name="school" placeholder="请输入学校">
-                            <button type="button" class="submit-btn" data-field="school">提交</button>
-                        </div> -->
-                        <!-- <div class="form-item">
-                            <label for="edit-sch-id">学号:</label>
-                            <input type="text" id="edit-sch-id" name="sch-id" placeholder="请输入学号">
-                            <button type="button" class="submit-btn" data-field="sch-id">提交</button>
-                        </div> -->
                     </form>
                 </div>
             </div>
         </div>
+
+        <!-- 学校管理交互框 -->
+        <div class="modal" id="school-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span>学校管理</span>
+                    <button class="close-btn" id="close-school-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="school-info">
+                        <img src="../pic/icon/sch_avatar.png" alt="学校校徽" class="school-logo">
+                        <h2 class="school-name">学校名称</h2>
+                        <p><strong>姓名:</strong> 张三</p>
+                        <p><strong>班级:</strong> 3年级 1班</p>
+                        <p><strong>学号:</strong> 123456</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 通知提醒交互框 -->
+        <div class="modal" id="notification-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span>通知提醒</span>
+                    <button class="close-btn" id="close-notification-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <div class="notification">
+                        <div class="notification-preview">
+                            <p><strong>通知标题:</strong> 请按时提交作业</p>
+                            <p>这是通知内容的预览，包含了一些简要信息...</p>
+                        </div>
+                        <button class="view-full-btn">查看全文</button>
+                    </div>
+                    <div class="notification">
+                        <div class="notification-preview">
+                            <p><strong>通知标题:</strong> 校内活动通知</p>
+                            <p>校内活动安排及参与事项...</p>
+                        </div>
+                        <button class="view-full-btn">查看全文</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 完整通知内容交互框 -->
+        <div class="modal" id="full-notification-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span>通知详情</span>
+                    <button class="close-btn" id="close-full-notification-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <h3 id="notification-title"></h3>
+                    <p id="notification-content"></p>
+                </div>
+            </div>
+        </div>
+
     </div>
-    <script src="../js/userInfo.js"></script>
+    <script type="module" src="../js/userInfo.js"></script>
 </body>
 
 </html>

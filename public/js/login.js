@@ -93,8 +93,13 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 async function checkLogin() {
-    // 检查用户是否已登录，若有 token，重定向到dashboard页面
+    // 检查用户是否已登录，若有 token，重定向到主页
     const token = localStorage.getItem('token');
+
+    if (!token) {
+        console.log('INFO: 未找到Token');
+        return;
+    }
 
     try {
         const response = await fetch('/api/varify_token', {
@@ -104,19 +109,24 @@ async function checkLogin() {
             },
             body: JSON.stringify({ token })
         });
-        const result = await response.json();
+
         if (response.ok) {
+            const result = await response.json();
             console.log('INFO: 已登录，跳转至主页');
-            if (result.type == 'user') {
+            if (result.type === 'user') {
                 window.location.href = '/user';
-            } else if (result.type == 'manager') {
+            } else if (result.type === 'manager') {
                 window.location.href = '/manager';
             } else {
-                return;
+                console.log('INFO: 未知用户类型');
             }
+        } else {
+            const result = await response.json();
+            console.log('INFO: ' + result.message);
         }
     } catch (error) {
         localStorage.removeItem('token');
         console.log('INFO: 已移除过期 Token');
+        console.error('Error:', error);
     }
 }

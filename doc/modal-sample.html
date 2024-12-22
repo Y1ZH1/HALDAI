@@ -1,0 +1,60 @@
+<!-- 为了统一 UI 和代码复用，所有弹出式交互框可按照此样例制作 -->
+<!-- 此处的相对路径根目录为 /public ，使用时注意更改 -->
+
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Modal Example</title>
+    <!-- 导入交互框的 css 内容 -->
+    <link rel="stylesheet" href="css/modal.css">
+</head>
+
+<body>
+    <!-- 打开按钮 -->
+    <!-- 利用打开交互框的id绑定的任何元素点击后都可以打开交互框，不必须是 button 标签 -->
+    <!-- id可以自定义，但是要在下方作为传递给 activeModal 函数的 openModalBtn 参数被获取 -->
+    <button id="open-modal-btn">打开交互框</button>
+
+    <!-- 交互框 -->
+    <!-- 交互框 id 可以自定义，但是要在下方作为传递给 activeModal 函数的 modal 参数被获取 -->
+    <div id="example-modal" class="modal">
+        <div class="modal-content"> <!-- 交互框主体 -->
+            <div class="modal-header">  <!-- 交互框顶栏，包括标题和关闭按钮 -->
+                <span>交互框标题</span>
+                <!-- 关闭按钮 id 可以自定义，但是要在下方作为传递给 activeModal 函数的 closeModalBtn 参数被获取 -->
+                <button class="close-btn" id="close-modal-btn">&times;</button>
+            </div>
+            <p>这是一个示例交互框。</p>
+            <p id="insert-content"></p>
+        </div>
+    </div>
+
+    <script type="module">
+        // 导入交互框的js内容，html 中的 script 标签必须添加 type="module" 才能导入
+        import { activeModal } from './js/modal.js';
+
+        // 打开交互框后的动作函数
+        const insertFunc = () => {
+            document.getElementById('insert-content').textContent = '这是通过回调函数插入的内容。';
+        }
+
+        // 按照自定义的id绑定元素
+        const openModalBtn = document.getElementById('open-modal-btn');
+        const closeModalBtn = document.getElementById('close-modal-btn');
+        const modal = document.getElementById('example-modal');
+
+        // 激活交互框
+        /* 参数：
+        openModalBtn: 点击打开交互框的元素
+        closeModalBtn: 点击关闭交互框的元素
+        modal: 交互框元素
+        onOpenCallback: 可选，回调函数，打开交互框后的动作
+        */
+        activeModal(openModalBtn, closeModalBtn, modal, insertFunc);
+    </script>
+</body>
+
+</html>

@@ -84,7 +84,7 @@ const varify_token = async (req, res) => {
     }
     const userinfo = JWT.verifyToken(token);
     if (!userinfo) {
-        res.status(401).json({ valid: false, message: '无效的Token' });
+        return res.status(401).json({ valid: false, message: 'Token 无效或已过期' });
     }
     //Token 有效
     try {

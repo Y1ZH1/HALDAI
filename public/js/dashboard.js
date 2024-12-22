@@ -1,6 +1,8 @@
-//未登录时退出
+import { activeModal } from '../js/modal.js'
+
 document.addEventListener('DOMContentLoaded', async () => {
-    const token = localStorage.getItem('token'); 
+    //未登录时退出
+    const token = localStorage.getItem('token');
     if (!token) {
         console.error('未找到token');
         window.location.href = '/login';
@@ -18,6 +20,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const result = await response.json();
         if (!response.ok) {
             localStorage.removeItem('token');
+            console.log('INFO: ' + result.massage)
             alert('登录过期，请重新登陆！');
             window.location.href = '/login';
         } else if ('/' + result.type != window.location.pathname) {
@@ -25,9 +28,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     } catch (error) {
         localStorage.removeItem('token');
+        console.error('ERROR: ' + error.message);
         alert('身份验证出错，请重新登陆');
         window.location.href = '/login';
     }
+ 
+    logoutBtn();
 });
 
 // 获取元素
@@ -35,7 +41,7 @@ const menuButton = document.getElementById('menu-button');
 const logoutMenu = document.getElementById('logout-menu');
 
 // 加载外部网页到iframe
-function loadPage(url) {
+window.loadPage = function(url) {
     const iframe = document.getElementById('content-frame');
     const defaultContent = document.getElementById('default-content');
 
@@ -66,16 +72,28 @@ window.onload = function () {
 };
 
 // 退出登录逻辑
-function logout() {
-    var isConfirmed = confirm("确定要退出登录吗？");
+function logoutBtn() {
+    const logoutBtn = document.getElementById('logout-btn'); // 退出登录按钮
+    const logoutModal = document.getElementById('logout-modal');
+    const closeLogoutModalBtn = document.getElementById('cancel-logout'); // 取消按钮
+    const confirmLogoutBtn = document.getElementById('confirm-logout'); // 确认按钮
 
-    if (isConfirmed) {
-        // TODO: 需要删除token的逻辑
-        localStorage.removeItem('token');  // 删除 token
-        window.location.href = '/login';
-    } else {
-        console.log("用户取消退出登录");
-    }
+    // 开关退出登录交互框
+    activeModal(logoutBtn, closeLogoutModalBtn, logoutModal, null, 180);
+
+    // 确认退出登录
+    confirmLogoutBtn.addEventListener('click', () => {
+        // 处理退出登录逻辑
+        localStorage.removeItem('token'); // 移除 token
+        alert('已退出登录');
+        window.location.href = '/login'; // 跳转到登录页面
+    });
+
+    // 取消退出登录
+    closeLogoutModalBtn.addEventListener('click', () => {
+        // 关闭退出登录选择框
+        logoutModal.classList.remove('open');
+    });
 }
 
 // 侧边栏鼠标悬停效果
