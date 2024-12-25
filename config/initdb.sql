@@ -24,6 +24,7 @@ CREATE TABLE sub (
     submissionid INT PRIMARY KEY AUTO_INCREMENT,
     uuid INT NOT NULL,
     date DATE DEFAULT CURRENT_DATE,
+    path VARCHAR(255) NOT NULL,
     FOREIGN KEY (uuid) REFERENCES userifo(uuid)
 );
 CREATE TABLE done (

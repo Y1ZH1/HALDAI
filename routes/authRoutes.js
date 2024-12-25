@@ -36,7 +36,8 @@ router.get('/api/get_user_info', authenticateToken, apiController.get_user_info)
 router.post('/api/set_user_info', authenticateToken, apiController.set_user_info);
 //验证Token
 router.post('/api/varify_token', apiController.varify_token);
-
+//upload
+// router.post('/api/upload',);
 //404路由
 router.get('/*', (req, res) => {
     res.status(404).sendFile(path.join(__dirname, '..', 'public/404.html'));
