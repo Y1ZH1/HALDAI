@@ -52,8 +52,10 @@
         closeModalBtn: 点击关闭交互框的元素
         modal: 交互框元素
         onOpenCallback: 可选，回调函数，打开交互框后的动作
+        modalWidth: 可选，交互框的宽度，默认为 600px ，小于 600px 则为屏幕宽的 98%
+        modalHeight: 可选，交互框的高度，默认为屏幕高的60%，默认时内容可能会溢出，设定后有滚动条
         */
-        activeModal(openModalBtn, closeModalBtn, modal, insertFunc);
+        activeModal(openModalBtn, closeModalBtn, modal, insertFunc, 500, 300);
     </script>
 </body>
 

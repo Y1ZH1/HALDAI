@@ -20,18 +20,18 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     // 获取用户信息
     fetchUserInfo(fields, token);
-    
+
     const editBtn = document.querySelectorAll('.action-button')[0]; // 编辑信息按钮
     const schoolBtn = document.querySelectorAll('.action-button')[1]; // 学校管理按钮
     const notificationBtn = document.querySelectorAll('.action-button')[2]; // 通知提醒按钮
-    
+
     const editModal = document.getElementById('edit-modal');
     const closeEditModalBtn = document.getElementById('close-modal');
     const submitButtons = document.querySelectorAll('.submit-btn');
-    
+
     const schoolModal = document.getElementById('school-modal');
     const closeSchoolModalBtn = document.getElementById('close-school-modal');
-    
+
     const notificationModal = document.getElementById('notification-modal');
     const closeNotificationModalBtn = document.getElementById('close-notification-modal');
     const fullNotificationModal = document.getElementById('full-notification-modal');
@@ -40,11 +40,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const viewFullBtns = document.querySelectorAll('.view-full-btn');
 
     // 开关编辑信息交互框
-    activeModal(editBtn, closeEditModalBtn, editModal);
+    activeModal(editBtn, closeEditModalBtn, editModal, null, null, 300);
     // 开关学校管理交互框
-    activeModal(schoolBtn, closeSchoolModalBtn, schoolModal);
+    activeModal(schoolBtn, closeSchoolModalBtn, schoolModal, null, null, 300);
     // 开关通知提醒交互框
-    activeModal(notificationBtn, closeNotificationModalBtn, notificationModal);
+    activeModal(notificationBtn, closeNotificationModalBtn, notificationModal, null, null, 300);
 
     // 开关完整通知内容交互框
     viewFullBtns.forEach((btn, index) => {
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('notification-title').textContent = title;
             document.getElementById('notification-content').textContent = content;
         };
-        activeModal(btn, closeFullNotificationModalBtn, fullNotificationModal, openFullNotification);
+        activeModal(btn, closeFullNotificationModalBtn, fullNotificationModal, openFullNotification, null, 300);
     });
 
     // 提交表单数据
@@ -71,28 +71,25 @@ async function fetchUserInfo(fields, token) {
                 'Authorization': `Bearer ${token}`,
             },
         });
-
+        
+        const data = await response.json();
         if (!response.ok) {
-            console.error('Error:', response.statusText);
-            if (response.status === 401) {
-                console.error('Token 无效或过期');
-                localStorage.removeItem('token');
-                window.parent.location.href = '/login'; // 重定向到登录页面
-                return;
-            }
+            console.error('Error:', response.statusText + ' ' + data.message);
+            localStorage.removeItem('token');
+            window.parent.location.href = '/login'; // 重定向到登录页面
+            return;
         }
 
-        const data = await response.json();
         // 批量更新 DOM 元素
         // 需要后端返回的字段和此处fields数组内的字段一致
         if (data) {
             Object.keys(fields).forEach(field => {
-                if (data[field] !== undefined) {
-                    fields[field].textContent = data[field];
+                if (data.data[field] !== undefined) {
+                    fields[field].textContent = data.data[field];
                 }
             });
         } else {
-            console.error('不匹配数据:', data);
+            console.error('数据不匹配');
             resetFields();
         }
     } catch (error) {

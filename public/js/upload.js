@@ -1,36 +1,37 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const form = document.getElementById('uploadForm');
-    const fileInput = document.getElementById('fileInput');
-    const message = document.getElementById('message');
+// 获取上传表单和文件输入
+const form = document.getElementById('uploadForm');
+const fileInput = document.getElementById('fileInput');
+const resultDisplay = document.getElementById('result');
 
-    form.addEventListener('submit', function(e) {
-        e.preventDefault();
-        
-        const file = fileInput.files[0];
-        if (!file) {
-            message.textContent = '请选择一个文件';
-            return;
-        }
+form.addEventListener('submit', function (event) {
+    event.preventDefault();  // 阻止表单默认提交行为
 
-        const formData = new FormData();
-        formData.append('image', file);
+    const formData = new FormData();
 
-        fetch('/upload', {
-            method: 'POST',
-            body: formData
-        })
+    // 将文件添加到 FormData 中，字段名为 'images'
+    for (let i = 0; i < fileInput.files.length; i++) {
+        formData.append('images', fileInput.files[i]);
+    }
+
+    formData.append('uploadType', 'sp_img');
+    const token = localStorage.getItem('token');
+    fetch('/api/upload_images', {
+        method: 'POST',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+        },
+        body: formData,
+    })
         .then(response => response.json())
         .then(data => {
-            if (data.success) {
-                message.textContent = '图片上传成功';
-                fileInput.value = ''; // 清空文件输入
+            if (data.code === 1) {
+                resultDisplay.textContent = `成功: ${data.message}`;
             } else {
-                message.textContent = '图片上传失败: ' + data.message;
+                resultDisplay.textContent = `错误: ${data.message}`;
             }
         })
         .catch(error => {
-            console.error('上传错误:', error);
-            message.textContent = '上传过程中发生错误';
+            console.error('上传失败:', error);
+            resultDisplay.textContent = '上传失败，请重试！';
         });
-    });
 });

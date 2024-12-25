@@ -6,5 +6,9 @@
         "gender": "gender",
         "birthdate": "birthdate",
         "tel": "tel"
+    },
+
+    "uploadPath": {
+        "sp_img": "sp_img"
     }
 }

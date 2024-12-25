@@ -1,66 +1,124 @@
 <!DOCTYPE html>
-<html lang="zh">
+<html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>图片上传</title>
+    <title>文件上传</title>
     <style>
+        /* 通用样式 */
         body {
             font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
-            background-color: #f0f0f0;
         }
-        .upload-container {
+
+        .container {
             background-color: white;
-            padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            box-sizing: border-box;
         }
+
         h1 {
             text-align: center;
             color: #333;
+            font-size: 24px;
+            margin-bottom: 20px;
         }
-        #uploadForm {
+
+        form {
             display: flex;
             flex-direction: column;
-            gap: 10px;
         }
-        #fileInput {
-            padding: 10px;
-            border: 1px solid #ddd;
+
+        label {
+            font-size: 16px;
+            margin-bottom: 8px;
+            color: #555;
+        }
+
+        input[type="file"] {
+            border: 2px solid #ccc;
+            padding: 12px;
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 20px;
             border-radius: 4px;
+            background-color: #f9f9f9;
         }
-        #uploadButton {
-            padding: 10px;
+
+        input[type="file"]:hover {
+            border-color: #888;
+        }
+
+        button {
             background-color: #4CAF50;
             color: white;
             border: none;
+            padding: 14px 20px;
+            font-size: 16px;
             border-radius: 4px;
             cursor: pointer;
+            transition: background-color 0.3s;
+            margin-top: 10px;
         }
-        #uploadButton:hover {
+
+        button:hover {
             background-color: #45a049;
         }
-        #message {
-            text-align: center;
+
+        .result {
             margin-top: 20px;
-            font-weight: bold;
+            padding: 15px;
+            background-color: #f0f0f0;
+            border-radius: 4px;
+            font-size: 16px;
+            color: #333;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        /* 响应式布局 */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+                margin: 20px;
+                width: auto;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            button {
+                padding: 12px 18px;
+                font-size: 14px;
+            }
         }
     </style>
 </head>
+
 <body>
-    <div class="upload-container">
-        <h1>图片上传</h1>
-        <form id="uploadForm">
-            <input type="file" id="fileInput" accept="image/*" required>
-            <button type="submit" id="uploadButton">上传图片</button>
+    <div class="container">
+        <h1>上传文件</h1>
+        <form id="uploadForm" enctype="multipart/form-data">
+            <label for="fileInput">选择要上传的文件（最多 3 个）</label>
+            <input type="file" name="images" id="fileInput" multiple />
+            <button type="submit">上传文件</button>
         </form>
-        <div id="message"></div>
+
+        <div class="result" id="result"></div>
     </div>
     <script src="../js/upload.js"></script>
 </body>
+
 </html>
