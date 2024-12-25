@@ -103,6 +103,7 @@ const varify_token = async (req, res) => {
         if (!req.session.isLogin) {
             req.session.isLogin = true;
             req.session.token = token;
+            req.session.type = results[0].type;
         }
         return res.json({ code: 1, valid: true, message: '验证成功', type: results[0].type });
     } catch (error) {
@@ -119,9 +120,34 @@ const log_out = (req, res) => {
     return res.status(200).json({ code: 1, message: '退出登录成功' });
 };
 
+// 上传图片
+const uploadImages = async (req, res) => {
+    if (!req.files || req.files.length === 0) {
+        return res.status(400).json({ code: 0, message: '上传文件为空' });
+    }
+    try {
+        // 遍历所有上传的文件，并插入数据库
+        const insertPromises = req.files.map(file => {
+            return db.promise().query(
+                'INSERT INTO submitfile (uuid, fileinfo, filename, uploaddate) VALUES (?, ?, ?, ?)',
+                [req.user.id, 'sp_img', file.filename, req.requestTime]
+            );
+        });
+
+        // 等待所有插入操作完成
+        await Promise.all(insertPromises);
+    } catch (error) {
+        console.error('数据库插入失败:', error);
+        res.status(500).json({ code: 0, message: '文件上传失败，请稍后再试' });
+    }
+
+    return res.status(200).json({ code: 1, message: '文件上传成功' });s
+};
+
 module.exports = {
     get_user_info,
     set_user_info,
     varify_token,
     log_out,
+    uploadImages,
 };

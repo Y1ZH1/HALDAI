@@ -20,16 +20,13 @@ CREATE TABLE userdata (
     tel CHAR(11),
     schoolid BIGINT
 );
-CREATE TABLE sub (
+
+-- 创建上传图片信息表
+CREATE TABLE submitfile (
     submissionid INT PRIMARY KEY AUTO_INCREMENT,
     uuid INT NOT NULL,
-    date DATE DEFAULT CURRENT_DATE,
-    FOREIGN KEY (uuid) REFERENCES userifo(uuid)
-);
-CREATE TABLE done (
-    submissionid INT PRIMARY KEY AUTO_INCREMENT,
-    uuid INT NOT NULL,
-    info VARCHAR(255) NOT NULL，
-    FOREIGN KEY (uuid) REFERENCES userifo(uuid),
-    FOREIGN KEY (submissionid) REFERENCES userifo(submissionid)
+    fileinfo VARCHAR(20) NOT NULL,
+    filename VARCHAR(50) NOT NULL,
+    uploaddate DATE DEFAULT CURRENT_DATE,
+    FOREIGN KEY (uuid) REFERENCES userinfo(uuid)
 );

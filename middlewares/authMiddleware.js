@@ -19,12 +19,9 @@ const JWT = {
 const authenticateToken = (req, res, next) => {
     // 从请求中获取 token
     let token;
-    if (req.method === 'GET') {
-        token = req.headers['authorization']?.split(' ')[1];
-    } else if (req.method === 'POST') {
+    token = req.headers['authorization']?.split(' ')[1];
+    if (!token) {
         token = req.body.token;
-    } else {
-        return res.status(401).json({ code: 0, message: '无效的请求' });
     }
 
     // 检查是否存在 token

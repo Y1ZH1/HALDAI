@@ -93,6 +93,7 @@ const login = async (req, res) => {
         // 更新 session
         req.session.isLogin = true;
         req.session.token = token;
+        req.session.type = user.type;
 
         return res.send({ code: 1, msg: '登录成功', data: { token }, type: user.type })
     } catch (err) {
