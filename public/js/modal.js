@@ -1,7 +1,8 @@
 // 开关交互框
-export function activeModal(openBtn, closeBtn, modal, onOpenCallback = null, modalWidth = null) {
+export function activeModal(openBtn, closeBtn, modal, onOpenCallback = null, modalWidth = null, modalHeight = null) {
     const modalContent = modal.querySelector('.modal-content');
     if (modalWidth) modalContent.style.width = modalWidth + 'px'; // 动态设置宽度
+    if (modalHeight) modalContent.style.height = modalHeight + 'px';
 
     // 打开交互框
     openBtn.addEventListener('click', () => {

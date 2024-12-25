@@ -66,7 +66,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 const result = await response.json();
                 if (response.ok) {
-                    alert('登录成功');
                     // 将 token 保存到 localStorage 中
                     localStorage.setItem('token', result.data.token);
                     loginForm.reset();  // 清空表单
