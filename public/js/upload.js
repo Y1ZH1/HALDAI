@@ -3,6 +3,9 @@ const form = document.getElementById('uploadForm');
 const fileInput = document.getElementById('fileInput');
 const resultDisplay = document.getElementById('result');
 
+let uploadCount = 0;
+const maxUploads = 3;
+
 form.addEventListener('submit', function (event) {
     event.preventDefault();  // 阻止表单默认提交行为
 
@@ -15,6 +18,14 @@ form.addEventListener('submit', function (event) {
 
     formData.append('uploadType', 'sp_img');
     const token = localStorage.getItem('token');
+
+    if (uploadCount >= maxUploads) {
+        // 禁用文件输入和提交按钮
+        document.getElementById('fileInput').disabled = true;
+        document.querySelector('#uploadForm button[type="submit"]').disabled = true;
+        alert('上传次数已达三次！');
+      }
+      
     fetch('/api/upload_images', {
         method: 'POST',
         headers: {
@@ -26,6 +37,7 @@ form.addEventListener('submit', function (event) {
         .then(data => {
             if (data.code === 1) {
                 resultDisplay.textContent = `成功: ${data.message}`;
+                uploadCount += 1;
             } else {
                 resultDisplay.textContent = `错误: ${data.message}`;
             }

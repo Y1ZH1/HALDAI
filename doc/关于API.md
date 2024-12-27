@@ -13,7 +13,7 @@
        res.sendFile(path.join(__dirname, 'file.html'));
    });
    //POST路由
-   router.post('appi/path', (req, res) =>{
+   router.post('api/path', (req, res) =>{
        //此路由的控制器逻辑
    });
    ```
