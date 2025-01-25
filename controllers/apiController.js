@@ -36,8 +36,8 @@ const get_user_info = async (req, res) => {
             message: '查询成功',
             data: userData
         });
-    } catch (err) {
-        console.error('Database error:', err);  // 打印详细错误信息
+    } catch (error) {
+        req.log_ERR('数据库错误', error);
         return res.status(500).json({ code: 0, message: '数据库查询失败' });
     }
 };
@@ -73,8 +73,8 @@ const set_user_info = async (req, res) => {
         }
 
         return res.status(200).json({ code: 1, message: '更新成功' });
-    } catch (err) {
-        console.error('Database error:', err);
+    } catch (error) {
+        req.log_ERR('数据库错误', error);
         return res.status(500).json({ code: 0, message: '数据库错误，修改失败' });
     }
 };
@@ -100,6 +100,7 @@ const varify_token = async (req, res) => {
         }
         return res.json({ code: 1, valid: true, message: '验证成功', type: results[0].type });
     } catch (error) {
+        req.log_ERR('数据库错误', error);
         return res.json({ code: 0, valid: false, message: '查询失败' });
     }
 };
@@ -130,12 +131,46 @@ const uploadImages = async (req, res) => {
         // 等待所有插入操作完成
         await Promise.all(insertPromises);
     } catch (error) {
-        console.error('数据库插入失败:', error);
+        req.log_ERR('数据库错误', error);
         res.status(500).json({ code: 0, message: '文件上传失败，请稍后再试' });
     }
 
     return res.status(200).json({ code: 1, message: '文件上传成功' });s
 };
+
+const get_upload_img_list = async (req, res) => {
+    try {
+        // 执行查询
+        const [results] = await db.promise().query(
+            'SELECT COUNT(*) AS file_count, GROUP_CONCAT(filename) AS filenames FROM submitfile WHERE uuid = ?', 
+            [req.user.id]
+        );
+        // 检查查询结果是否为空
+        if (!results || results.length === 0) {
+            return res.status(200).json({ 
+                code: 0, 
+                message: '查询失败'
+            });
+        }
+        // 返回查询结果
+        return res.status(200).json({ 
+            code: 1, 
+            message: '请求成功', 
+            data: { 
+                count: results[0].file_count, 
+                filenames: results[0].filenames ? results[0].filenames.split(',') : [] 
+            } 
+        });
+    } catch (error) {
+        req.log_ERR('数据库错误', error);
+        // 返回服务器错误
+        return res.status(500).json({ 
+            code: 0, 
+            message: '查找失败' 
+        });
+    }
+};
+
 
 module.exports = {
     get_user_info,
@@ -143,4 +178,5 @@ module.exports = {
     varify_token,
     log_out,
     uploadImages,
+    get_upload_img_list,
 };

@@ -15,7 +15,8 @@ router.post('/set_user_info', authMiddleware.authenticateToken, apiController.se
 router.post('/varify_token', apiController.varify_token);
 // 退出登录
 router.post('/log_out', apiController.log_out);
-//上传图片
+// 上传图片
 router.post('/upload_images', authMiddleware.authenticateToken, uploadMiddleware.createUpload('images').array('images', 3), apiController.uploadImages);
-
+// 获取上传的图片列表
+router.get('/get_upload_img_list', authMiddleware.authenticateToken, apiController.get_upload_img_list);
 module.exports = router;

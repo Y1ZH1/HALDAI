@@ -60,6 +60,10 @@ const authenticateSession = (req, res, next) => {
 const preProc = (req, res, next) => {
     req.url = decodeURIComponent(req.url); // 解码 URL
     req.requestTime = new Date();   //添加请求到达时间
+    req.requestLocalTime = req.requestTime.toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" });
+    req.localTime = ( timestamp ) => { timestamp.toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" }) };
+    req.log_INFO = ( msg, time = req.requestLocalTime ) => { console.log(`INFO [${ time }]: ` + msg)};
+    req.log_ERR = ( msg, error = '', time = req.requestLocalTime ) => { console.error(`ERR [${ time }]: ` + msg, error)};
     next();
 }
 

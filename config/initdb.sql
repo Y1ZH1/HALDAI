@@ -6,7 +6,8 @@ CREATE TABLE userinfo (
     type ENUM('user', 'manager', 'admin'),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_login TIMESTAMP NULL,
-    token VARCHAR(255)
+    token VARCHAR(255),
+    FOREIGN KEY (uuid) REFERENCES userinfo(uuid) ON DELETE CASCADE
 );
 
 -- 创建用户数据表
@@ -24,9 +25,9 @@ CREATE TABLE userdata (
 -- 创建上传图片信息表
 CREATE TABLE submitfile (
     submissionid INT PRIMARY KEY AUTO_INCREMENT,
-    uuid INT NOT NULL,
+    uuid VARCHAR(36) NOT NULL,
     fileinfo VARCHAR(20) NOT NULL,
     filename VARCHAR(50) NOT NULL,
     uploaddate DATE DEFAULT CURRENT_DATE,
-    FOREIGN KEY (uuid) REFERENCES userinfo(uuid)
+    FOREIGN KEY (uuid) REFERENCES userinfo(uuid) ON DELETE CASCADE
 );

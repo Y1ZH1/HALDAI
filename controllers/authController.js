@@ -10,7 +10,7 @@ const config = require('../config/config.json');
 
 const register = async (req, res) => {
     const created_at = new Date(); // 获取当前时间戳
-    console.log(`INFO [${created_at.toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" })}]: 收到注册请求`);
+    req.log_INFO('收到注册请求', req.localTime(created_at));
 
     // 从请求体中获取数据
     const { name, username, password, confirmPassword, gender, phone, birthdate } = req.body;
@@ -61,7 +61,7 @@ const register = async (req, res) => {
         console.log(`INFO: 用户"${username}"注册成功，UUID为${uuid}`);
         return res.status(201).json({ code: 1, message: '用户注册成功' });
     } catch (err) {
-        console.error('注册错误:', err);
+        req.log_ERR('注册错误', err);
         return res.status(500).json({ code: 0, message: '服务器错误' });
     }
 };
@@ -70,7 +70,7 @@ const register = async (req, res) => {
 const login = async (req, res) => {
     const { username, password } = req.body;
     const last_login = new Date(); // 获取当前时间戳
-    console.log(`INFO [${last_login.toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" })}]: 收到用户“${username}”的登录请求`);
+    req.log_INFO(`收到用户“${username}”的登录请求`, req.localTime(last_login));
 
     try {
         const [results] = await db.promise().query('SELECT * FROM userinfo WHERE username = ?', [username]);
@@ -97,7 +97,7 @@ const login = async (req, res) => {
 
         return res.send({ code: 1, msg: '登录成功', data: { token }, type: user.type })
     } catch (err) {
-        console.error(err);
+        req.log_ERR('登录错误', err);
         return res.status(500).json({ code: 0, message: '登录错误' });
     }
 };
