@@ -36,6 +36,28 @@ document.addEventListener('DOMContentLoaded', async () => {
     logoutBtn();
 });
 
+// 切换侧边栏展开和收回
+function toggleSidebar() {
+    const sidebar = document.querySelector('.sidebar');
+    const mainContent = document.getElementById('main-content');
+
+    if (sidebar.style.left === '0px') {
+        sidebar.style.left = '-250px';  // 隐藏侧边栏
+        mainContent.style.marginLeft = '0';  // 主内容宽度恢复
+    } else {
+        sidebar.style.left = '0';  // 展开侧边栏
+        mainContent.style.marginLeft = '250px';  // 主内容左侧偏移
+    }
+}
+
+// 监听点击左上角菜单按钮，切换侧边栏的显示与隐藏
+document.querySelector('.menu-title').addEventListener('click', toggleSidebar);
+
+// 跳转页面
+window.redirectPage = function (url) {
+    window.location.href = url;
+}
+
 // 加载外部网页到iframe
 window.loadPage = function (url) {
     const iframe = document.getElementById('content-frame');

@@ -246,3 +246,33 @@ body.dark-mode .main-content {
 #cancel-logout:hover {
     background-color: darkgray; /* 取消按钮悬停颜色 */
 }
+
+/* 移动端适配，隐藏侧边栏并给主内容宽度设置为 100% */
+@media screen and (max-width: 768px) {
+    .sidebar {
+        left: -250px;
+        transition: left 0.3s ease;
+    }
+
+    .top-bar .title {
+        font-size: 15px;
+        margin: auto auto;
+    }
+
+    .main-content {
+        margin-left: 0;
+        margin-top: 60px;
+    }
+
+    .menu-title {
+        display: block;
+        cursor: pointer;
+    }
+
+
+
+    /* 切换日夜模式按钮 */
+    #theme-toggle {
+        display: block;
+    }
+}
