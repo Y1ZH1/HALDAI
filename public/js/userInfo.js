@@ -18,8 +18,16 @@ document.addEventListener('DOMContentLoaded', () => {
         userTel: document.getElementById('tel'),
         userSchoolid: document.getElementById('sch-id')
     };
+
+    const schoolInfoFields = {
+        username: document.getElementById('school-info-name'),
+        schoolName: document.getElementById('school-info-school'),
+        class: document.getElementById('school-info-class'),
+        schoolID: document.getElementById('school-info-sch-id'),
+    };
+
     // 获取用户信息
-    fetchUserInfo(fields, token);
+    fetchUserInfo(fields, schoolInfoFields, token);
 
     const editBtn = document.querySelectorAll('.action-button')[0]; // 编辑信息按钮
     const schoolBtn = document.querySelectorAll('.action-button')[1]; // 学校管理按钮
@@ -39,10 +47,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const notificationPreviews = document.querySelectorAll('.notification-preview');
     const viewFullBtns = document.querySelectorAll('.view-full-btn');
 
+    const linkSchoolBtn = document.getElementById('linkSchool-btn');
+    const quitSchoolBtn = document.getElementById('quitSchool-btn');
+    const linkschoolModal = document.getElementById('linkschool-modal');
+    const quitschoolModal = document.getElementById('quitschool-modal');
+    const closeLinkcshoolBtn = document.getElementById('close-linkcshool-modal-btn');
+    const closeQuitschoolBtn = document.getElementById('close-quitschool-modal-btn');
+
     // 开关编辑信息交互框
     activeModal(editBtn, closeEditModalBtn, editModal, null, null, 300);
     // 开关学校管理交互框
-    activeModal(schoolBtn, closeSchoolModalBtn, schoolModal, null, null, 300);
+    activeModal(schoolBtn, closeSchoolModalBtn, schoolModal, null, null, 350);
     // 开关通知提醒交互框
     activeModal(notificationBtn, closeNotificationModalBtn, notificationModal, null, null, 300);
 
@@ -58,11 +73,45 @@ document.addEventListener('DOMContentLoaded', () => {
         activeModal(btn, closeFullNotificationModalBtn, fullNotificationModal, openFullNotification, null, 300);
     });
 
+    // 学校管理功能交互框
+    activeModal(linkSchoolBtn, closeLinkcshoolBtn, linkschoolModal, null, null, 300);
+    activeModal(quitSchoolBtn, closeQuitschoolBtn, quitschoolModal, null, null, 300);
+
     // 提交表单数据
     editSubmit(token, submitButtons);
 });
 
-async function fetchUserInfo(fields, token) {
+window.submitLink = () => {
+    let inviteCode = document.getElementById('inviteCode');
+    if (!inviteCode.value) {
+        document.getElementById('linkResult').textContent = "请输入邀请码";
+        return;
+    }
+    fetch('/api/link_schools', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ linkType: "link", invite_code: inviteCode.value })
+    })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('linkResult').textContent = data.message;
+            inviteCode.value = '';
+        });
+}
+
+window.confirmQuit = () => {
+    fetch('/api/link_schools', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ linkType: "quit" })
+    })
+        .then(response => response.json())
+        .then(data => {
+            alert(data.message);
+        });
+}
+
+async function fetchUserInfo(fields, schoolInfoFields, token) {
     try {
         const response = await fetch('/api/get_user_info', {
             method: 'GET',
@@ -71,7 +120,7 @@ async function fetchUserInfo(fields, token) {
                 'Authorization': `Bearer ${token}`,
             },
         });
-        
+
         const data = await response.json();
         if (!response.ok) {
             console.error('Error:', response.statusText + ' ' + data.message);
@@ -84,10 +133,23 @@ async function fetchUserInfo(fields, token) {
         // 需要后端返回的字段和此处fields数组内的字段一致
         if (data) {
             Object.keys(fields).forEach(field => {
-                if (data.data[field] !== undefined) {
+                if (data.data[field] == undefined || data.data[field] == null) {
+                    fields[field].textContent = '暂无信息';
+                } else {
                     fields[field].textContent = data.data[field];
                 }
             });
+            if (data.schooldata) {
+                Object.keys(schoolInfoFields).forEach(sfield => {
+                    if (data.schooldata[sfield] == undefined || data.schooldata[sfield] == null) {
+                        schoolInfoFields[sfield].textContent = '暂无信息';
+                    } else {
+                        schoolInfoFields[sfield].textContent = data.schooldata[sfield];
+                    }
+                });
+            } else {
+                schoolInfoFields.schoolName.textContent = '未关联学校';
+            }
         } else {
             console.error('数据不匹配');
             resetFields();

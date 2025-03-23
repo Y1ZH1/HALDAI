@@ -2,15 +2,25 @@
 
 const { JWT } = require('../middlewares/authMiddleware');
 const mapping = require('../config/mapping.json');
+const school = require('../config/school.json');
 const db = require('../config/db');
+const { ReceiptEuro, SchoolIcon } = require('lucide-react');
 
 // 查询用户数据
 const get_user_info = async (req, res) => {
     try {
-        const [userdatas] = await db.promise().query('SELECT name, gender, school, birthDate, tel, schoolid FROM userdata WHERE uuid = ?', [req.user.id]);
+        const [userdatas] = await db.promise().query('SELECT name, gender, birthDate, islinkedschool, tel FROM userdata WHERE uuid = ?', [req.user.id]);
         const user = userdatas[0];
         if (!user) {
             return res.status(404).json({ code: 0, message: '用户信息未找到' });
+        }
+        let schoolinfo = null;
+        if (user.islinkedschool == '1') {
+            const [schooldatas] = await db.promise().query('SELECT schoolcode, schoolid, class FROM studata WHERE uuid = ?', [req.user.id]);
+            schoolinfo = schooldatas[0];
+            if (!schoolinfo) {
+                return res.status(404).json({ code: 0, message: '学校信息未找到' });
+            }
         }
 
         // 计算年龄
@@ -31,10 +41,22 @@ const get_user_info = async (req, res) => {
             userSchoolid: user.schoolid
         };
 
+        let schoolData = null;
+        if (schoolinfo) {
+            schoolData = {
+                username: user.name,
+                schoolName: school[schoolinfo.schoolcode],
+                schoolID: schoolinfo.schoolid,
+                class: schoolinfo.class,
+                schoolCode: schoolinfo.schoolcode
+            };
+        }
+
         return res.json({
             code: 1,
             message: '查询成功',
-            data: userData
+            data: userData,
+            schooldata: schoolData
         });
     } catch (error) {
         req.log_ERR('数据库错误', error);
@@ -171,6 +193,19 @@ const get_upload_img_list = async (req, res) => {
     }
 };
 
+const link_schools = (req, res) => {
+    if (req.body.linkType == 'link') {
+        return res.json({ code: 1, message: '申请成功，请等待管理员通过' });
+    } else if (req.body.linkType == 'quit') {
+        return res.json({ code: 1, message: '申请退出成功，请等待管理员通过' });
+    } else {
+        return res.status(404);
+    }
+};
+
+const get_school_info = (req, res) => {
+    
+};
 
 module.exports = {
     get_user_info,
@@ -179,4 +214,6 @@ module.exports = {
     log_out,
     uploadImages,
     get_upload_img_list,
+    link_schools,
+    get_school_info,
 };

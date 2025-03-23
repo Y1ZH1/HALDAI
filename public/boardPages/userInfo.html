@@ -109,11 +109,44 @@
                 <div class="modal-body">
                     <div class="school-info">
                         <img src="../pic/icon/sch_avatar.png" alt="学校校徽" class="school-logo">
-                        <h2 class="school-name">学校名称</h2>
-                        <p><strong>姓名:</strong> 张三</p>
-                        <p><strong>班级:</strong> 3年级 1班</p>
-                        <p><strong>学号:</strong> 123456</p>
+                        <h2 class="school-name"><span id="school-info-school"></span></h2>
+                        <div id="school-details">
+                            <p><strong>姓名: </strong><span id="school-info-name"></span></p>
+                            <p><strong>班级: </strong><span id="school-info-class"></span></p>
+                            <p><strong>学号: </strong><span id="school-info-sch-id"></span></p>
+                        </div>
                     </div>
+                    <div class="school-action-container">
+                        <button class="action-button" id="linkSchool-btn"><span>关联学校</span></button>
+                        <button class="action-button" id="quitSchool-btn"><span>退出学校</span></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="linkschool-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span>关联学校</span>
+                </div>
+                <input type="text" id="inviteCode" placeholder="输入邀请码">
+                <div class="school-button">
+                    <button onclick="submitLink()">提交</button>
+                    <button id="close-linkcshool-modal-btn">关闭</button>
+                </div>
+                <p id="linkResult"></p>
+            </div>
+        </div>
+
+        <div id="quitschool-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span>退出学校</span>
+                </div>
+                <p>确定要退出当前学校吗？</p>
+                <div class="school-button">
+                    <button onclick="confirmQuit()">确定</button>
+                    <button id="close-quitschool-modal-btn">取消</button>
                 </div>
             </div>
         </div>

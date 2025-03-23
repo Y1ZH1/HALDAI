@@ -19,9 +19,12 @@ const JWT = {
 const authenticateToken = (req, res, next) => {
     // 从请求中获取 token
     let token;
-    token = req.headers['authorization']?.split(' ')[1];
+    token = req.headers['authorization']?.split(' ')[1];    //token在head中
     if (!token) {
-        token = req.body.token;
+        token = req.body.token;     //token在body中
+    }
+    if (!token) {
+        token = req.session.isLogin ? req.session.token : null;   //请求中不手动携带token，则从session中获取
     }
 
     // 检查是否存在 token
@@ -55,6 +58,8 @@ const authenticateSession = (req, res, next) => {
     }
     next();
 };
+
+//通过session提取出token
 
 //基础全局中间件
 const preProc = (req, res, next) => {

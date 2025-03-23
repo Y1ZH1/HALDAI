@@ -6,8 +6,7 @@ CREATE TABLE userinfo (
     type ENUM('user', 'manager', 'admin'),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_login TIMESTAMP NULL,
-    token VARCHAR(255),
-    FOREIGN KEY (uuid) REFERENCES userinfo(uuid) ON DELETE CASCADE
+    token VARCHAR(255)
 );
 
 -- 创建用户数据表
@@ -16,10 +15,19 @@ CREATE TABLE userdata (
     userid VARCHAR(50) NOT NULL UNIQUE,
     name VARCHAR(50),
     gender ENUM('男', '女', '未设置'),
-    school VARCHAR(30),
     birthdate TIMESTAMP,
     tel CHAR(11),
-    schoolid BIGINT
+    islinkedschool ENUM('0', '1'),
+    FOREIGN KEY (uuid) REFERENCES userinfo(uuid) ON DELETE CASCADE
+);
+
+-- 创建学生信息表
+CREATE TABLE studata (
+    uuid VARCHAR(36) PRIMARY KEY NOT NULL UNIQUE,
+    schoolcode VARCHAR(12) NOT NULL,
+    schoolid VARCHAR(20) NOT NULL,
+    class VARCHAR(20),
+    FOREIGN KEY (uuid) REFERENCES userinfo(uuid) ON DELETE CASCADE
 );
 
 -- 创建上传图片信息表
