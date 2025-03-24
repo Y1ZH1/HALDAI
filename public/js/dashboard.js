@@ -97,7 +97,7 @@ function logoutBtn() {
     const confirmLogoutBtn = document.getElementById('confirm-logout'); // 确认按钮
 
     // 开关退出登录交互框
-    activeModal(logoutBtn, closeLogoutModalBtn, logoutModal, null, 180, 0);
+    activeModal(logoutBtn, closeLogoutModalBtn, logoutModal, 0, 180);
 
     // 确认退出登录
     confirmLogoutBtn.addEventListener('click', async () => {

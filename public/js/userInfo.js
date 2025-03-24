@@ -55,11 +55,11 @@ document.addEventListener('DOMContentLoaded', () => {
     const closeQuitschoolBtn = document.getElementById('close-quitschool-modal-btn');
 
     // 开关编辑信息交互框
-    activeModal(editBtn, closeEditModalBtn, editModal, null, null, 300);
+    activeModal(editBtn, closeEditModalBtn, editModal, 300);
     // 开关学校管理交互框
-    activeModal(schoolBtn, closeSchoolModalBtn, schoolModal, null, null, 350);
+    activeModal(schoolBtn, closeSchoolModalBtn, schoolModal, 350);
     // 开关通知提醒交互框
-    activeModal(notificationBtn, closeNotificationModalBtn, notificationModal, null, null, 300);
+    activeModal(notificationBtn, closeNotificationModalBtn, notificationModal, 300);
 
     // 开关完整通知内容交互框
     viewFullBtns.forEach((btn, index) => {
@@ -70,12 +70,14 @@ document.addEventListener('DOMContentLoaded', () => {
             document.getElementById('notification-title').textContent = title;
             document.getElementById('notification-content').textContent = content;
         };
-        activeModal(btn, closeFullNotificationModalBtn, fullNotificationModal, openFullNotification, null, 300);
+        activeModal(btn, closeFullNotificationModalBtn, fullNotificationModal, 300, null, openFullNotification);
     });
 
     // 学校管理功能交互框
-    activeModal(linkSchoolBtn, closeLinkcshoolBtn, linkschoolModal, null, null, 300);
-    activeModal(quitSchoolBtn, closeQuitschoolBtn, quitschoolModal, null, null, 300);
+    activeModal(linkSchoolBtn, closeLinkcshoolBtn, linkschoolModal, 300, null, () => {
+        document.getElementById('linkResult').textContent = '';
+    });
+    activeModal(quitSchoolBtn, closeQuitschoolBtn, quitschoolModal, 300);
 
     // 提交表单数据
     editSubmit(token, submitButtons);
@@ -108,6 +110,7 @@ window.confirmQuit = () => {
         .then(response => response.json())
         .then(data => {
             alert(data.message);
+            location.reload();
         });
 }
 

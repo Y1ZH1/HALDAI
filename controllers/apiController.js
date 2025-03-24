@@ -35,10 +35,10 @@ const get_user_info = async (req, res) => {
             userID: req.user.username,
             userName: user.name,
             userGender: user.gender,
-            userSchool: user.school,
+            userSchool: schoolinfo ? school[schoolinfo.schoolcode] : null,
             userAge: age,
             userTel: user.tel,
-            userSchoolid: user.schoolid
+            userSchoolid: schoolinfo ? schoolinfo.schoolid : null
         };
 
         let schoolData = null;
@@ -59,7 +59,35 @@ const get_user_info = async (req, res) => {
             schooldata: schoolData
         });
     } catch (error) {
-        req.log_ERR('数据库错误', error);
+        req.log_ERR('查询用户信息数据库错误', error);
+        return res.status(500).json({ code: 0, message: '数据库查询失败' });
+    }
+};
+
+// 查询管理员数据
+const get_manager_info = async (req, res) => {
+    try {
+        const [managerdatas] = await db.promise().query('SELECT name, tel, schoolcode, email FROM managerdata WHERE uuid = ?', [req.user.id]);
+        const managerdata = managerdatas[0];
+        if (!managerdata) {
+            return res.status(404).json({ code: 0, message: '用户信息未找到' });
+        }
+
+        const managerData = {
+            userName: managerdata.name,
+            userID: req.user.username,
+            userSchool: school[managerdata.schoolcode], 
+            userTel: managerdata.tel,
+            userEmail: managerdata.email
+        };
+
+        return res.json({
+            code: 1,
+            message: '查询成功',
+            data: managerData
+        });
+    } catch (error) {
+        req.log_ERR('查询管理员信息数据库错误', error);
         return res.status(500).json({ code: 0, message: '数据库查询失败' });
     }
 };
@@ -157,38 +185,38 @@ const uploadImages = async (req, res) => {
         res.status(500).json({ code: 0, message: '文件上传失败，请稍后再试' });
     }
 
-    return res.status(200).json({ code: 1, message: '文件上传成功' });s
+    return res.status(200).json({ code: 1, message: '文件上传成功' }); s
 };
 
 const get_upload_img_list = async (req, res) => {
     try {
         // 执行查询
         const [results] = await db.promise().query(
-            'SELECT COUNT(*) AS file_count, GROUP_CONCAT(filename) AS filenames FROM submitfile WHERE uuid = ?', 
+            'SELECT COUNT(*) AS file_count, GROUP_CONCAT(filename) AS filenames FROM submitfile WHERE uuid = ?',
             [req.user.id]
         );
         // 检查查询结果是否为空
         if (!results || results.length === 0) {
-            return res.status(200).json({ 
-                code: 0, 
+            return res.status(200).json({
+                code: 0,
                 message: '查询失败'
             });
         }
         // 返回查询结果
-        return res.status(200).json({ 
-            code: 1, 
-            message: '请求成功', 
-            data: { 
-                count: results[0].file_count, 
-                filenames: results[0].filenames ? results[0].filenames.split(',') : [] 
-            } 
+        return res.status(200).json({
+            code: 1,
+            message: '请求成功',
+            data: {
+                count: results[0].file_count,
+                filenames: results[0].filenames ? results[0].filenames.split(',') : []
+            }
         });
     } catch (error) {
         req.log_ERR('数据库错误', error);
         // 返回服务器错误
-        return res.status(500).json({ 
-            code: 0, 
-            message: '查找失败' 
+        return res.status(500).json({
+            code: 0,
+            message: '查找失败'
         });
     }
 };
@@ -204,11 +232,12 @@ const link_schools = (req, res) => {
 };
 
 const get_school_info = (req, res) => {
-    
+
 };
 
 module.exports = {
     get_user_info,
+    get_manager_info,
     set_user_info,
     varify_token,
     log_out,

@@ -9,6 +9,8 @@ const path = require('path');
 
 // 获取用户信息
 router.get('/get_user_info', authMiddleware.authenticateToken, apiController.get_user_info);
+// 获取管理员信息
+router.get('/get_manager_info', authMiddleware.authenticateToken, apiController.get_manager_info);
 // 获取学校信息
 router.get('/get_school_info', authMiddleware.authenticateToken, apiController.get_school_info);
 // 设置用户信息

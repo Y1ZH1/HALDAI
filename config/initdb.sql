@@ -21,6 +21,17 @@ CREATE TABLE userdata (
     FOREIGN KEY (uuid) REFERENCES userinfo(uuid) ON DELETE CASCADE
 );
 
+-- 创建管理员数据表
+CREATE TABLE managerdata (
+    uuid VARCHAR(36) PRIMARY KEY NOT NULL UNIQUE,
+    username VARCHAR(50) NOT NULL UNIQUE,
+    name VARCHAR(50),
+    tel CHAR(11),
+    schoolcode VARCHAR(12) NOT NULL,
+    email VARCHAR(50),
+    FOREIGN KEY (uuid) REFERENCES userinfo(uuid) ON DELETE CASCADE
+)
+
 -- 创建学生信息表
 CREATE TABLE studata (
     uuid VARCHAR(36) PRIMARY KEY NOT NULL UNIQUE,
