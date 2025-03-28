@@ -59,8 +59,6 @@ const authenticateSession = (req, res, next) => {
     next();
 };
 
-//通过session提取出token
-
 //基础全局中间件
 const preProc = (req, res, next) => {
     req.url = decodeURIComponent(req.url); // 解码 URL

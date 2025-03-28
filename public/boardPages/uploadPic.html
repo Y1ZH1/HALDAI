@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>文件上传</title>
+    <link rel="stylesheet" href="../css/uploadPic.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="upload-card">
+            <h1>图片上传</h1>
+            <form id="uploadForm" enctype="multipart/form-data">
+                <label for="fileInput">选择要上传的文件（最多 3 个）</label>
+                <input type="file" name="images" id="fileInput" multiple />
+                <button type="submit">上传文件</button>
+            </form>
+            <div class="result" id="result"></div>
+        </div>
+        
+        <div class="stats-card">
+            <h1>上传统计</h1>
+            <div class="stats-icon">📊</div>
+            <div class="upload-count" id="uploadCount">0</div>
+            <div class="upload-limit">已上传体态图片数量</div>
+            <div class="progress-container">
+                <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+            </div>
+        </div>
+    </div>
+    <script src="../js/uploadPic.js"></script>
+</body>
+
+</html>

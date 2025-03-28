@@ -11,7 +11,7 @@ module.exports = {
         videos: ['video/mp4', 'video/avi', 'video/mkv'],
         audio: ['audio/mpeg', 'audio/wav']
     },
-    getUploadPath: (req, folder) => path.join(__dirname, `../uploads/${req.user.id.split('-')[0]}/${folder || 'default'}`),
+    getUploadPath: (req, folder) => path.join(__dirname, `../public/uploads/${req.user.id.split('-')[0]}/${folder || 'default'}`),
     generateFileName: (req, file) => {
         const ext = path.extname(file.originalname);
         const baseName = req.body.filename || `file-${Date.now()}`;

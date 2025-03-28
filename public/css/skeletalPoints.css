@@ -1,90 +1,371 @@
-/* 检测模块通用样式 */
-.detection-title {
+/* 全局样式 */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Microsoft YaHei', sans-serif;
+}
+
+body {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+/* 页面标题 */
+.page-title {
     text-align: center;
-    margin: 30px 0;
+    margin: 20px 0 30px;
+    color: #2c3e50;
+    font-size: 36px;
+    font-weight: bold;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* 标签导航 */
+.tab-navigation {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.tab-button {
+    padding: 15px 30px;
+    margin: 0 10px;
+    background: #fff;
+    color: #555;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    font-size: 18px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.tab-button:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+    transition: 0.5s;
+}
+
+.tab-button:hover:before {
+    left: 100%;
+}
+
+.tab-button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15);
+}
+
+.tab-button.active {
+    background: #45b554;
+    color: white;
+}
+
+/* 检测模块容器 */
+.detection-module {
+    display: none;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.detection-module.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 检测模块标题 */
+/* .detection-title {
+    text-align: center;
+    margin: 20px 0 30px;
+    background: rgba(255, 255, 255, 0.8);
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    display: inline-block;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .detection-title span {
-    color: rgb(69, 181, 84);
-    font-size: 50px;
-    font-family: '华文行楷';
+    color: #45b554;
+    font-size: 40px;
+    font-family: '华文行楷', cursive;
+    margin: 0 5px;
+    display: inline-block;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    animation: float 3s ease-in-out infinite;
 }
 
+.detection-title span:nth-child(2n) {
+    animation-delay: 0.5s;
+} */
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-5px); }
+}
+
+/* 检测容器 */
 .detection-container {
-    width: 80%;
-    margin: 30px auto;
-    padding: 20px;
-    background: #f5f5f5;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto 40px;
+    padding: 30px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
 }
 
+.detection-container:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+    transform: translateY(-5px);
+}
+
+/* 上传区域 */
 .upload-section {
     text-align: center;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
+    padding: 30px;
+    background: rgba(69, 181, 84, 0.1);
+    border-radius: 15px;
+    border: 2px dashed #45b554;
+    transition: all 0.3s ease;
 }
 
+.upload-section:hover {
+    background: rgba(69, 181, 84, 0.15);
+}
+
+/* 图片区域 */
 .image-section {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
-    margin-top: 20px;
+    margin-top: 30px;
     gap: 20px;
 }
 
 .image-container {
-    width: 30%;
-    padding: 10px;
-    background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.result-container {
-    width: 30%;
+    flex: 1;
     padding: 20px;
     background: white;
-    border-radius: 8px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    text-align: center;
 }
 
+.image-container:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
+}
+
+.image-container h3 {
+    color: #2c3e50;
+    margin-bottom: 15px;
+    font-size: 20px;
+    position: relative;
+}
+
+.image-container h3:after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #45b554;
+    border-radius: 3px;
+}
+
+/* 结果容器 */
+.result-container {
+    flex: 1;
+    min-width: 300px;
+    padding: 25px;
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+}
+
+.result-container:hover {
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
+}
+
+.result-container h3 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-size: 22px;
+    text-align: center;
+    position: relative;
+    display: inline-block;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.result-container h3:after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #45b554;
+    border-radius: 3px;
+}
+
+/* 结果框 */
+.result-box {
+    margin-bottom: 25px;
+    padding: 15px;
+    border: 1px solid #e0e0e0;
+    border-radius: 10px;
+    background: #f9f9f9;
+    transition: all 0.3s ease;
+}
+
+.result-box:hover {
+    border-color: #45b554;
+    box-shadow: 0 5px 15px rgba(69, 181, 84, 0.1);
+}
+
+.result-box h4 {
+    color: #45b554;
+    margin-bottom: 10px;
+    font-size: 18px;
+}
+
+.result-box p {
+    color: #555;
+    line-height: 1.6;
+}
+
+/* 预览图片 */
 .preview-image {
     max-width: 100%;
     height: auto;
-    margin-bottom: 10px;
+    margin: 15px 0;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
 }
 
-.result-box {
-    margin-bottom: 20px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 5px;
+.preview-image:hover {
+    transform: scale(1.02);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
 }
 
+/* 上传按钮 */
 .upload-btn {
-    padding: 10px 20px;
-    background: #4CAF50;
+    padding: 12px 30px;
+    background: #45b554;
     color: white;
     border: none;
-    border-radius: 5px;
+    border-radius: 50px;
     cursor: pointer;
-    transition: 0.3s;
-    font-size: 16px;
-    min-width: 120px;
+    transition: all 0.3s ease;
+    font-size: 18px;
+    min-width: 180px;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(69, 181, 84, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.upload-btn:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: 0.5s;
+}
+
+.upload-btn:hover:before {
+    left: 100%;
 }
 
 .upload-btn:hover {
-    background: #45a049;
-    transform: scale(1.05);
+    background: #3da04a;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(69, 181, 84, 0.4);
+}
+
+.upload-btn:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(69, 181, 84, 0.4);
 }
 
 .file-input {
     display: none;
 }
 
-/* 分隔线样式 */
-.separator {
-    height: 5px;
-    border: none;
-    border-top: 5px dashed goldenrod;
-    margin: 40px 0;
+/* 链接样式 */
+#linkContainer a {
+    display: inline-block;
+    margin-top: 10px;
+    color: #45b554;
+    text-decoration: none;
+    font-weight: bold;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+#linkContainer a:hover {
+    color: #3da04a;
+}
+
+#linkContainer a:after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    bottom: -3px;
+    left: 0;
+    background-color: #45b554;
+    transform: scaleX(0);
+    transform-origin: bottom right;
+    transition: transform 0.3s ease;
+}
+
+#linkContainer a:hover:after {
+    transform: scaleX(1);
+    transform-origin: bottom left;
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .image-section {
+        flex-direction: column;
+    }
+    
+    .image-container, .result-container {
+        width: 100%;
+    }
+    
+    .tab-button {
+        padding: 12px 20px;
+        font-size: 16px;
+    }
+    
+    /* .detection-title span {
+        font-size: 32px;
+    } */
 }

@@ -1,4 +1,4 @@
--- 创建账号信息表
+-- 账号信息表
 CREATE TABLE userinfo (
     uuid VARCHAR(36) PRIMARY KEY NOT NULL UNIQUE,
     username VARCHAR(50) NOT NULL UNIQUE,
@@ -9,7 +9,7 @@ CREATE TABLE userinfo (
     token VARCHAR(255)
 );
 
--- 创建用户数据表
+-- 用户数据表
 CREATE TABLE userdata (
     uuid VARCHAR(36) PRIMARY KEY NOT NULL UNIQUE,
     userid VARCHAR(50) NOT NULL UNIQUE,
@@ -18,10 +18,11 @@ CREATE TABLE userdata (
     birthdate TIMESTAMP,
     tel CHAR(11),
     islinkedschool ENUM('0', '1'),
+    posture_info char(50),
     FOREIGN KEY (uuid) REFERENCES userinfo(uuid) ON DELETE CASCADE
 );
 
--- 创建管理员数据表
+-- 管理员数据表
 CREATE TABLE managerdata (
     uuid VARCHAR(36) PRIMARY KEY NOT NULL UNIQUE,
     username VARCHAR(50) NOT NULL UNIQUE,
@@ -32,16 +33,19 @@ CREATE TABLE managerdata (
     FOREIGN KEY (uuid) REFERENCES userinfo(uuid) ON DELETE CASCADE
 )
 
--- 创建学生信息表
+-- 学生信息表
 CREATE TABLE studata (
     uuid VARCHAR(36) PRIMARY KEY NOT NULL UNIQUE,
+    stu_name VARCHAR(50) NOT NULL,
     schoolcode VARCHAR(12) NOT NULL,
-    schoolid VARCHAR(20) NOT NULL,
-    class VARCHAR(20),
+    stu_id VARCHAR(20) NOT NULL,
+    department char(20),
+    grade VARCHAR(10),
+    class VARCHAR(10),
     FOREIGN KEY (uuid) REFERENCES userinfo(uuid) ON DELETE CASCADE
 );
 
--- 创建上传图片信息表
+-- 上传图片信息表
 CREATE TABLE submitfile (
     submissionid INT PRIMARY KEY AUTO_INCREMENT,
     uuid VARCHAR(36) NOT NULL,

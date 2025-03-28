@@ -18,7 +18,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgb(0, 123, 255);
+    background: linear-gradient(135deg, #64b5f6 0%, #1976d2 100%);
     color: white;
     height: 60px;
     padding: 0 15px;

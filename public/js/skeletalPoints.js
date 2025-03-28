@@ -1,4 +1,23 @@
-// 图片预览功能
+// 标签切换功能
+function switchTab(tabName) {
+    // 隐藏所有模块
+    document.querySelectorAll('.detection-module').forEach(module => {
+        module.classList.remove('active');
+    });
+
+    // 取消所有标签按钮的激活状态
+    document.querySelectorAll('.tab-button').forEach(button => {
+        button.classList.remove('active');
+    });
+
+    // 显示选中的模块
+    document.getElementById(tabName + '-module').classList.add('active');
+
+    // 激活对应的标签按钮
+    event.currentTarget.classList.add('active');
+}
+
+// 保留原有的条件判断代码
 function displayLinkBasedOnCondition() {
     // 使用 setTimeout 延迟执行显示链接的逻辑
     setTimeout(function () {
@@ -30,8 +49,10 @@ function displayLinkBasedOnCondition() {
 
         // 将新的<a>元素添加到容器中
         container.appendChild(a);
-    }, 4500); // 3000 毫秒 = 3 秒
+    }, 4500); // 4500 毫秒 = 4.5 秒
 }
+
+// 高低肩检测图片预览功能
 document.getElementById('fileInput').addEventListener('change', function (e) {
     const file = e.target.files[0];
     if (file) {
@@ -59,7 +80,7 @@ document.getElementById('fileInput').addEventListener('change', function (e) {
     }
 });
 
-// 驼背检测
+// 驼背检测图片预览功能
 document.getElementById('fileInput2').addEventListener('change', function (e) {
     const file = e.target.files[0];
     if (file) {
@@ -69,7 +90,7 @@ document.getElementById('fileInput2').addEventListener('change', function (e) {
             document.getElementById('originalImage2').src = e.target.result;
 
             // 显示"处理中"的提示
-            document.getElementById('processedImage2').src = '../pic/loading.png';  // 可选：添加加载中的图片
+            document.getElementById('processedImage2').src = '../pic/loading.gif';  // 可选：添加加载中的图片
             document.getElementById('angleResult2').textContent = "处理中...";
             document.getElementById('textResult2').textContent = "正在分析图片，请稍候...";
 

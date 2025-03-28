@@ -5,6 +5,7 @@ const mapping = require('../config/mapping.json');
 const school = require('../config/school.json');
 const db = require('../config/db');
 const { ReceiptEuro, SchoolIcon } = require('lucide-react');
+const { generateFileName } = require('../config/upload');
 
 // 查询用户数据
 const get_user_info = async (req, res) => {
@@ -16,7 +17,7 @@ const get_user_info = async (req, res) => {
         }
         let schoolinfo = null;
         if (user.islinkedschool == '1') {
-            const [schooldatas] = await db.promise().query('SELECT schoolcode, schoolid, class FROM studata WHERE uuid = ?', [req.user.id]);
+            const [schooldatas] = await db.promise().query('SELECT schoolcode, stu_id, class FROM studata WHERE uuid = ?', [req.user.id]);
             schoolinfo = schooldatas[0];
             if (!schoolinfo) {
                 return res.status(404).json({ code: 0, message: '学校信息未找到' });
@@ -38,7 +39,7 @@ const get_user_info = async (req, res) => {
             userSchool: schoolinfo ? school[schoolinfo.schoolcode] : null,
             userAge: age,
             userTel: user.tel,
-            userSchoolid: schoolinfo ? schoolinfo.schoolid : null
+            userSchoolid: schoolinfo ? schoolinfo.stu_id : null
         };
 
         let schoolData = null;
@@ -46,7 +47,7 @@ const get_user_info = async (req, res) => {
             schoolData = {
                 username: user.name,
                 schoolName: school[schoolinfo.schoolcode],
-                schoolID: schoolinfo.schoolid,
+                schoolID: schoolinfo.stu_id,
                 class: schoolinfo.class,
                 schoolCode: schoolinfo.schoolcode
             };
@@ -76,7 +77,7 @@ const get_manager_info = async (req, res) => {
         const managerData = {
             userName: managerdata.name,
             userID: req.user.username,
-            userSchool: school[managerdata.schoolcode], 
+            userSchool: school[managerdata.schoolcode],
             userTel: managerdata.tel,
             userEmail: managerdata.email
         };
@@ -199,7 +200,7 @@ const get_upload_img_list = async (req, res) => {
         if (!results || results.length === 0) {
             return res.status(200).json({
                 code: 0,
-                message: '查询失败'
+                message: '无数据',
             });
         }
         // 返回查询结果
@@ -208,7 +209,8 @@ const get_upload_img_list = async (req, res) => {
             message: '请求成功',
             data: {
                 count: results[0].file_count,
-                filenames: results[0].filenames ? results[0].filenames.split(',') : []
+                filenames: results[0].filenames ? results[0].filenames.split(',') : [],
+                user_folder: req.user.id.split('-')[0] 
             }
         });
     } catch (error) {
@@ -231,8 +233,50 @@ const link_schools = (req, res) => {
     }
 };
 
-const get_school_info = (req, res) => {
+const get_posture_info = async (req, res) => {
+    let userData;
+    try {
+        const [user] = await db.promise().query('SELECT name, gender, birthDate, islinkedschool, tel, posture_info FROM userdata WHERE uuid = ?', [req.user.id]);
+        if (!user[0]) {
+            return res.status(404).json({ code: 0, message: '用户信息未找到' });
+        }
+        if (user[0].islinkedschool == '0') {
+            userData = {
+                userName: user[0].name,
+                userBody: user[0].posture_info,
+                userGender: user[0].gender
+            };
+        } else {
+            const [studatas] = await db.promise().query('SELECT stu_name, department, class, stu_id, schoolcode FROM studata WHERE uuid = ? ', [req.user.id]);
+            const stu = studatas[0];
+            if (!stu) {
+                return res.status(404).json({ code: 0, message: '用户信息未找到' });
+            }
 
+            userData = {
+                userName: stu.stu_name,
+                userClass: stu.class,
+                userStid: stu.stu_id,
+                userDepartment: stu.department,
+                userSchool: school[stu.schoolcode],
+                userBody: user[0].posture_info,
+                userGender: user[0].gender
+            };
+        }
+
+        return res.json({
+            code: 1,
+            message: '查询成功',
+            data: userData
+        });
+    } catch (err) {
+        req.log_ERR('体态信息查询，数据库错误', err);
+        return res.status(500).json({ code: 0, message: '数据库查询失败' });
+    }
+};
+
+const get_images = async (req, res) => {
+    // TODO
 };
 
 module.exports = {
@@ -244,5 +288,6 @@ module.exports = {
     uploadImages,
     get_upload_img_list,
     link_schools,
-    get_school_info,
+    get_posture_info,
+    get_images,
 };
