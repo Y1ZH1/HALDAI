@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学生信息查询系统</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/globalPostureSearch.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <header class="header">
+            <h1>学生信息综合查询</h1>
+            <p>快速查询学生信息、班级和体态数据</p>
+        </header>
+
+        <!-- Search Section -->
+        <section class="search-section">
+            <form id="studentForm" action="/api/select_class_info">
+                <!-- Search Mode Selection -->
+                <div class="search-mode">
+                    <label for="search-mode-select">查询方式</label>
+                    <select id="search-mode-select">
+                        <option value="class">查询班级</option>
+                        <option value="posture">查询体态信息</option>
+                        <option value="class-posture">班级内查询体态信息</option>
+                    </select>
+                </div>
+
+                <!-- Search Fields -->
+                <div class="search-fields">
+                    <!-- Class Search Field - Visible by default -->
+                    <div class="search-field" id="class-field">
+                        <label for="class">班级</label>
+                        <input type="text" id="class" name="class" placeholder="输入班级编号或名称" required>
+                    </div>
+
+                    <!-- Posture Issue Search Field - Hidden by default for class search -->
+                    <div class="search-field" id="posture-field">
+                        <label for="posture-issue">体态信息</label>
+                        <input type="text" id="posture-issue" name="posture-issue" placeholder="输入体态问题关键词">
+                    </div>
+                </div>
+
+                <!-- Search Button -->
+                <button type="submit" class="search-button">
+                    <i class="fas fa-search"></i>
+                    查询
+                </button>
+            </form>
+        </section>
+
+        <!-- Results Section -->
+        <section class="results-section">
+            <div class="results-header">
+                <h2>查询结果</h2>
+                <span class="results-count" id="results-count">0 位学生</span>
+            </div>
+
+            <!-- Results List -->
+            <ul class="results-list" id="results-list">
+                <!-- Results will be dynamically inserted here -->
+                <div class="no-results" id="no-results">
+                    <i class="fas fa-search"></i>
+                    <p>暂无查询结果</p>
+                    <span>请使用上方的搜索功能查询学生信息</span>
+                </div>
+            </ul>
+        </section>
+    </div>
+
+    <script src="../js/globalPostureSearch.js"></script>
+</body>
+
+</html>

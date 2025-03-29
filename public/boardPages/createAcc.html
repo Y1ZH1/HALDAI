@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>班级信息管理系统</title>
+    <!-- 引入 XLSX 库 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.3/xlsx.full.min.js"></script>
+    <link rel="stylesheet" href="../css/createAcc.css">
+</head>
+
+<body>
+    <div class="container">
+        <header class="header">
+            <h1>班级信息管理系统</h1>
+            <p>通过上传Excel文件快速导入学生信息，高效管理班级数据</p>
+        </header>
+
+        <div class="card-row">
+            <!-- Excel Upload Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>上传Excel文件</h2>
+                    <div class="icon icon-upload"></div>
+                </div>
+                <div class="card-content">
+                    <form id="excel" action="/excel" method="POST">
+                        <div class="upload-area" onclick="document.getElementById('fileInput').click()">
+                            <div class="upload-icon">📄</div>
+                            <div class="upload-text">点击或拖拽Excel文件到此处</div>
+                            <button type="button" class="upload-button">
+                                <span class="icon-upload"></span>
+                                选择文件
+                            </button>
+                            <input type="file" id="fileInput" class="file-input" accept=".xls,.xlsx" />
+                        </div>
+                        <div class="status" id="status">请上传Excel文件。</div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Student Count Card -->
+            <div class="card">
+                <div class="card-header">
+                    <h2>班级学生统计</h2>
+                    <div class="icon icon-users"></div>
+                </div>
+                <div class="card-content">
+                    <div class="count-display">
+                        <div class="count-number" id="studentCount">0</div>
+                        <div class="count-label">当前班级学生总数</div>
+                    </div>
+                    <div class="count-details">
+                        <div class="detail-item">
+                            <span class="detail-label">男生人数</span>
+                            <span class="detail-value" id="maleCount">0</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">女生人数</span>
+                            <span class="detail-value" id="femaleCount">0</span>
+                        </div>
+                        <div class="detail-item">
+                            <!-- <span class="detail-label">最近更新时间</span>
+                            <span class="detail-value">2023-06-15 14:30</span> -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notice Card -->
+        <div class="card">
+            <div class="card-header">
+                <h2>使用须知</h2>
+                <div class="icon icon-info"></div>
+            </div>
+            <div class="card-content">
+                <ul class="notice-list">
+                    <li class="notice-item">
+                        <div class="notice-icon icon-check"></div>
+                        <div class="notice-content">
+                            <div class="notice-title">Excel文件格式要求</div>
+                            <div class="notice-description">
+                                请确保上传的Excel文件包含"姓名"和"身份证号码"列。系统将自动识别并提取这些信息。
+                            </div>
+                        </div>
+                    </li>
+                    <li class="notice-item">
+                        <div class="notice-icon icon-warning"></div>
+                        <div class="notice-content">
+                            <div class="notice-title">数据安全提醒</div>
+                            <div class="notice-description">
+                                上传的学生信息将被安全存储，仅用于班级管理目的。请确保数据准确性，避免信息错误。
+                            </div>
+                        </div>
+                    </li>
+                    <li class="notice-item">
+                        <div class="notice-icon icon-tip"></div>
+                        <div class="notice-content">
+                            <div class="notice-title">操作提示</div>
+                            <div class="notice-description">
+                                上传成功后，系统将自动处理数据并更新班级学生统计信息。如遇问题，请联系系统管理员。
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/createAcc.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>学生信息查询系统</title>
+    <link rel="stylesheet" href="../css/stuPostureSearch.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="left-section">
+            <div class="search-form card">
+                <h2>学生查询</h2>
+                <form id="studentForm">
+                    <div class="form-group">
+                        <label for="class">班级：</label>
+                        <input type="text" id="class" name="class" placeholder="请输入班级" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="name">姓名：</label>
+                        <input type="text" id="name" name="name" placeholder="请输入姓名" required>
+                    </div>
+                    <button type="submit">查询信息</button>
+                </form>
+                <div id="status-message" class="status-message"></div>
+            </div>
+
+            <div class="student-info card">
+                <h2>学生信息</h2>
+                <div id="loading-info" class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>正在加载学生信息...</p>
+                </div>
+                <div id="student-info-content">
+                    <div class="empty-state">请在上方输入学生信息进行查询</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-section">
+            <div class="posture-info card">
+                <div class="posture-text">
+                    <h2>体态信息</h2>
+                    <div id="loading-posture" class="loading">
+                        <div class="loading-spinner"></div>
+                        <p>正在加载体态信息...</p>
+                    </div>
+                    <div id="posture-content" class="posture-content">
+                        <div class="empty-state">请先查询学生信息</div>
+                    </div>
+                </div>
+
+                <div class="upload-section">
+                    <h2>上传体态图片</h2>
+                    <form id="uploadForm" enctype="multipart/form-data">
+                        <div class="file-upload">
+                            <label for="fileInput">选择要上传的图片（最多3张）</label>
+                            <div class="file-input-container">
+                                <input type="file" id="fileInput" name="images" accept="image/*" multiple
+                                    class="file-input">
+                            </div>
+                            <div id="fileList" class="file-list"></div>
+                        </div>
+                        <button type="submit">上传图片</button>
+                    </form>
+                    <div id="upload-result" class="upload-result"></div>
+                </div>
+            </div>
+
+            <div class="image-gallery card">
+                <h2>体态图片</h2>
+                <div id="loading-gallery" class="loading">
+                    <div class="loading-spinner"></div>
+                    <p>正在加载图片...</p>
+                </div>
+                <div id="gallery-container" class="gallery-container">
+                    <div class="empty-state">请先查询学生信息</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="../js/stuPostureSearch.js"></script>
+</body>
+
+</html>

@@ -30,4 +30,13 @@ router.get('/get_upload_img_list', authMiddleware.authenticateToken, apiControll
 // 获取图片
 router.post('/get_images', authMiddleware.authenticateToken, apiController.get_images);
 
+// 管理员查询学生体态信息
+router.post('/get_stu_posture_info', authMiddleware.authenticateToken, authMiddleware.authSchoolManager, apiController.get_stu_posture_info);
+// 管理员批量查询体态信息
+router.post('/get_global_posture_info', authMiddleware.authenticateToken, authMiddleware.authSchoolManager, apiController.get_global_posture_info);
+// 管理员上传学生体态图片
+router.post('/upload_stu_images', authMiddleware.authenticateToken, authMiddleware.authSchoolManager, authMiddleware.authSchoolCode, uploadMiddleware.createUpload('images').array('images', 3), apiController.uploadImages);
+// 批量创建学生账号
+router.post('/create_account', authMiddleware.authenticateToken, authMiddleware.authSchoolManager, apiController.create_account);
+
 module.exports = router;

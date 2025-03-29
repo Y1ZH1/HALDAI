@@ -1,6 +1,7 @@
 // middlewares/authMiddleware.js
 const jwt = require('jsonwebtoken');
 const config = require("../config/config.json");   //解密密钥
+const db = require('../config/db');
 
 const JWT = {
     createToken: (data, time) => {
@@ -59,14 +60,48 @@ const authenticateSession = (req, res, next) => {
     next();
 };
 
+//验证学校管理员
+const authSchoolManager = async (req, res, next) => {
+    // 该中间件需在 token 验证之后使用
+    try {
+        const [managerInfo] = await db.promise().query('SELECT schoolcode FROM managerdata WHERE uuid = ?', [req.user.id]);
+        if (!managerInfo[0]) {
+            return res.status(401).message('未查询到管理员信息');
+        }
+        req.managerSchoolCode = managerInfo[0].schoolcode;
+        next();
+    } catch (err) {
+        return res.status(401).message('该用户非管理员');
+    }
+};
+
+//比对管理员和其试图操作的学生uuid是否为同一学校
+const authSchoolCode = async (req, res, next) => {
+    if (req.headers['uuid']) {
+        uuid = req.headers['uuid'];
+        const [stu] = await db.promise().query('SELECT schoolcode FROM studata WHERE uuid = ?', [uuid]);
+        if (!stu[0]) { 
+            return res.status(400).json({ code: 0, message: '该学生不存在' }); 
+        }
+        if (stu[0].schoolcode != req.managerSchoolCode) { 
+            return res.status(401).json({ code: 0, message: '用户权限错误' }); 
+        }
+        req.schoolCodeAuthPassed = true;
+        req.user.id = uuid;
+        next();
+    } else {
+        return res.status(400).json({ code: 0, message: '缺少 uuid' });
+    }
+};
+
 //基础全局中间件
 const preProc = (req, res, next) => {
     req.url = decodeURIComponent(req.url); // 解码 URL
     req.requestTime = new Date();   //添加请求到达时间
     req.requestLocalTime = req.requestTime.toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" });
-    req.localTime = ( timestamp ) => { timestamp.toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" }) };
-    req.log_INFO = ( msg, time = req.requestLocalTime ) => { console.log(`INFO [${ time }]: ` + msg)};
-    req.log_ERR = ( msg, error = '', time = req.requestLocalTime ) => { console.error(`ERR [${ time }]: ` + msg, error)};
+    req.localTime = (timestamp) => { timestamp.toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" }) };
+    req.log_INFO = (msg, time = req.requestLocalTime) => { console.log(`INFO [${time}]: ` + msg) };
+    req.log_ERR = (msg, error = '', time = req.requestLocalTime) => { console.error(`ERR [${time}]: ` + msg, error) };
     next();
 }
 
@@ -74,5 +109,7 @@ module.exports = {
     JWT,
     authenticateToken,
     authenticateSession,
+    authSchoolManager,
+    authSchoolCode,
     preProc,
 }
