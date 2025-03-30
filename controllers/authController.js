@@ -46,16 +46,16 @@ const register = async (req, res) => {
             sex = gender === 'male' ? '男' : '女';
         }
 
-        // 插入用户数据
-        await db.promise().query(
-            'INSERT INTO userdata (uuid, userid, name, gender, tel, birthdate) VALUES (?, ?, ?, ?, ?, ?)',
-            [uuid, username, endname, sex, phone, date]
-        );
-
         // 插入用户认证信息
         await db.promise().query(
             'INSERT INTO userinfo (uuid, username, password, created_at) VALUES (?, ?, ?, ?)',
             [uuid, username, hashedPassword, created_at]
+        );
+
+        // 插入用户数据
+        await db.promise().query(
+            'INSERT INTO userdata (uuid, userid, name, gender, tel, birthdate) VALUES (?, ?, ?, ?, ?, ?)',
+            [uuid, username, endname, sex, phone, date]
         );
 
         console.log(`INFO: 用户"${username}"注册成功，UUID为${uuid}`);

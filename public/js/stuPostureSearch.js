@@ -42,6 +42,15 @@ document.getElementById('studentForm').addEventListener('submit', function (even
             document.querySelectorAll('.loading').forEach(el => el.style.display = 'none');
 
             // 更新状态消息
+            if (data.code != 1) {
+                if (data.code == 3) {
+                    statusMessage.textContent = '没有查询到该学生！';
+                } else {
+                    statusMessage.textContent = '没有查询到数据！';
+                }
+                statusMessage.className = 'status-message success';
+                return;
+            }
             statusMessage.textContent = '查询成功！';
             statusMessage.className = 'status-message success';
 
@@ -81,7 +90,7 @@ document.getElementById('studentForm').addEventListener('submit', function (even
             document.querySelectorAll('.loading').forEach(el => el.style.display = 'none');
 
             // 显示错误消息
-            statusMessage.textContent = '查询失败，请重试！';
+            statusMessage.textContent = '查询失败，请刷新重试！';
             statusMessage.className = 'status-message error';
 
             // 恢复空状态显示

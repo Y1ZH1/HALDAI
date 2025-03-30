@@ -149,7 +149,7 @@ const varify_token = async (req, res) => {
             req.session.token = token;
             req.session.type = results[0].type;
         }
-        return res.json({ code: 1, valid: true, message: '验证成功', type: results[0].type });
+        return res.json({ code: 1, valid: true, message: '验证成功', type: results[0].type, username: userinfo.username });
     } catch (error) {
         req.log_ERR('数据库错误', error);
         return res.json({ code: 0, valid: false, message: '查询失败' });
@@ -286,14 +286,14 @@ const get_stu_posture_info = async (req, res) => {
             [className, name, req.managerSchoolCode]);
         const user = stuinfo[0];
         if (!user) {
-            return res.status(404).json({ code: 0, message: '用户信息未找到' });
+            return res.status(200).json({ code: 3, message: '用户信息未找到' });
         }
         if (user.schoolcode != req.managerSchoolCode) {
-            return res.status(401).json({ code: 0, message: '管理员权限不匹配' });
+            return res.status(401).json({ code: 2, message: '管理员权限不匹配' });
         }
         const [userdata] = await db.promise().query('SELECT gender, posture_info FROM userdata WHERE uuid = ?', [user.uuid]);
         if (!userdata[0]) {
-            return res.status(404).json({ code: 0, message: '用户信息未找到' });
+            return res.status(200).json({ code: 3, message: '用户信息未找到' });
         }
         const [images] = await db.promise().query(
             'SELECT COUNT(*) AS file_count, GROUP_CONCAT(filename) AS filenames FROM submitfile WHERE uuid = ?',
@@ -396,7 +396,6 @@ const get_global_posture_info = async (req, res) => {
             department: student.department,
             body_info: student.posture_info
         }));
-        console.log(studentData);
 
         return res.json({
             code: 1,

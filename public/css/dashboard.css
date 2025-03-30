@@ -1,103 +1,210 @@
-/* 基本布局 */
-html {
-    background: url('../pic/bg.png') no-repeat center center;
+/* 基本样式设置 */
+:root {
+    --primary-color: #4361ee;
+    --primary-light: #4895ef;
+    --primary-dark: #3f37c9;
+    --secondary-color: #f72585;
+    --text-color: #333333;
+    --text-light: #6c757d;
+    --bg-color: #f8f9fa;
+    --bg-sidebar: #ffffff;
+    --bg-card: #ffffff;
+    --border-color: #e9ecef;
+    --shadow-color: rgba(0, 0, 0, 0.05);
+    --success-color: #4caf50;
+    --warning-color: #ff9800;
+    --danger-color: #f44336;
+    --transition-speed: 0.3s;
+}
+
+.dark {
+    --primary-color: #4361ee;
+    --primary-light: #4895ef;
+    --primary-dark: #3f37c9;
+    --secondary-color: #f72585;
+    --text-color: #e9ecef;
+    --text-light: #adb5bd;
+    --bg-color: #121212;
+    --bg-sidebar: #1e1e1e;
+    --bg-card: #2d2d2d;
+    --border-color: #333333;
+    --shadow-color: rgba(0, 0, 0, 0.2);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-    margin: 0;
-    font-family: 'Roboto', Arial, sans-serif;
-    display: flex;
-    height: 100vh;
-    background-color: #f4f7fa;
+    font-family: "Noto Sans SC", sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color var(--transition-speed), color var(--transition-speed);
     overflow: hidden;
-    transition: background-color 0.3s ease;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-/* 顶部边栏样式 */
+/* 顶部导航栏 */
 .top-bar {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background: linear-gradient(135deg, #64b5f6 0%, #1976d2 100%);
+    background: linear-gradient(135deg, #1976d2 0%, #64b5f6 100%);
     color: white;
-    height: 60px;
-    padding: 0 15px;
+    height: 64px;
+    padding: 0 20px;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
     z-index: 1000;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 2px 10px var(--shadow-color);
 }
 
-.top-bar .logo {
-    width: 50px;
-    height: 50px;
+.top-bar-left {
+    display: flex;
+    align-items: center;
+}
+
+.top-bar-right {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo {
+    width: 40px;
+    height: 40px;
     background-color: white;
-    border-radius: 50%;
+    border-radius: 8px;
     display: inline-block;
-    background-image: url('../pic/favicon.ico');
+    background-image: url("../pic/favicon.ico");
     background-size: cover;
+    cursor: pointer;
+    transition: transform 0.2s ease;
 }
 
-.top-bar .title {
-    font-size: 20px;
-    font-weight: bold;
-    margin-left: 10px;
+.logo:hover {
+    transform: scale(1.05);
 }
 
-.top-bar .menu {
-    display: inline-block;
+.title {
+    font-size: 18px;
+    font-weight: 600;
+    margin-left: 15px;
+    white-space: nowrap;
+}
+
+/* 搜索框 */
+.search-box {
+    display: flex;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    padding: 5px 15px;
+    transition: background-color 0.3s;
+}
+
+.search-box:focus-within {
+    background-color: rgba(255, 255, 255, 0.25);
+}
+
+.search-box input {
+    background: transparent;
+    border: none;
+    color: white;
+    padding: 5px;
+    width: 180px;
+    outline: none;
+}
+
+.search-box input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.search-btn {
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 用户头像 */
+.user-profile {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* 菜单样式 */
+.menu {
     position: relative;
 }
 
-.top-bar .menu .menu-title {
-    background-color: white;
-    color: #007bff;
-    padding: 10px 20px;
+.menu-title {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: rgba(255, 255, 255, 0.15);
+    color: white;
+    padding: 8px 15px;
+    border-radius: 20px;
     cursor: pointer;
-    font-size: 16px;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s;
 }
 
-.top-bar .menu .menu-title:hover {
-    background-color: #f0f0f0;
+.menu-title:hover {
+    background-color: rgba(255, 255, 255, 0.25);
 }
 
-/* 菜单展开项 */
 .menu-options {
     display: none;
     position: absolute;
-    top: 45px;
-    /* 增加与上方的间距 */
-    left: 50%;
-    /* 将展开项的左边对齐到父元素的中间 */
-    transform: translateX(-70%);
-    /* 水平居中对齐 */
-    background-color: white;
-    width: 120px;
-    /* 设置展开项的宽度 */
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    border-radius: 5px;
+    right: 0;
+    background-color: var(--bg-card);
+    min-width: 180px;
+    box-shadow: 0 5px 15px var(--shadow-color);
+    border-radius: 8px;
     z-index: 999;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
 }
 
-.menu-options .menu-item {
-    padding: 10px 20px;
-    border-radius: 5px;
-    color: gray;
-    font-size: 16px;
+.menu-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    color: var(--text-color);
     cursor: pointer;
-    transition: background-color 0.3s ease, color 0.3s ease;
+    transition: background-color 0.2s;
 }
 
-.menu-options .menu-item:hover {
-    background-color: #f0f0f0;
-    color: #333;
+.menu-item:hover {
+    background-color: rgba(67, 97, 238, 0.1);
 }
 
-/* 鼠标悬停显示菜单项 */
 .menu:hover .menu-options {
     display: block;
 }
@@ -105,109 +212,209 @@ body {
 /* 侧边栏样式 */
 .sidebar {
     width: 250px;
-    background-color: #343a40;
-    color: white;
+    background-color: var(--bg-sidebar);
+    color: var(--text-color);
     display: flex;
     flex-direction: column;
-    padding-top: 20px;
     position: fixed;
-    top: 60px;
+    top: 64px;
     bottom: 0;
-    z-index: 500;
-    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.1);
-    transition: width 0.3s ease;
-}
-
-.sidebar a {
-    text-decoration: none;
-    color: white;
-    padding: 15px 20px;
-    display: block;
-    font-size: 18px;
-    border-radius: 8px;
-    transition: background-color 0.3s ease;
-    text-align: center;
-    margin: 5px 10px;
-}
-
-.sidebar a:hover,
-.sidebar a.active {
-    background-color: #007bff;
-}
-
-/* 主内容区域样式 */
-.main-content {
-    flex-grow: 1;
-    margin-left: 250px;
-    /* padding: 20px; */
-    background-color: #ffffff;
+    left: 0;
+    z-index: 900;
+    box-shadow: 2px 0 10px var(--shadow-color);
+    transition: left var(--transition-speed), width var(--transition-speed), background-color var(--transition-speed);
     overflow-y: auto;
-    margin-top: 60px;
-    transition: background-color 0.3s ease;
 }
 
-/* iframe样式 */
+.sidebar-header {
+    padding: 20px;
+    text-align: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.user-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 10px;
+    border: 3px solid var(--primary-light);
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.user-name {
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.user-role {
+    font-size: 14px;
+    color: var(--text-light);
+}
+
+.sidebar-menu {
+    padding: 15px 0;
+    flex-grow: 1;
+}
+
+.sidebar-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--text-color);
+    padding: 12px 20px;
+    margin: 5px 10px;
+    border-radius: 8px;
+    transition: all 0.2s;
+    position: relative;
+}
+
+.sidebar-item:hover {
+    background-color: rgba(67, 97, 238, 0.1);
+    color: var(--primary-color);
+}
+
+.sidebar-item.active {
+    background-color: var(--primary-color);
+    color: rgb(255, 255, 255);
+}
+
+.sidebar-item.active svg {
+    color: white;
+}
+
+.sidebar-item svg {
+    color: var(--text-light);
+    transition: color 0.2s;
+}
+
+.sidebar-item:hover svg {
+    color: var(--primary-color);
+}
+
+.sidebar-footer {
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+}
+
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    background-color: transparent;
+    color: var(--text-color);
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background-color 0.2s;
+}
+
+.theme-toggle:hover {
+    background-color: rgba(67, 97, 238, 0.1);
+}
+
+/* 主内容区域 */
+.main-content {
+    margin-left: 250px;
+    margin-top: 64px;
+    flex-grow: 1;
+    transition: margin-left var(--transition-speed), background-color var(--transition-speed);
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 64px);
+}
+
+.content-header {
+    padding: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+#page-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.breadcrumb {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+    color: var(--text-light);
+}
+
+.breadcrumb .separator {
+    margin: 0 8px;
+}
+
+.content-wrapper {
+    flex-grow: 1;
+    overflow: auto;
+}
+
 iframe {
     width: 100%;
     height: 100%;
     border: none;
 }
 
-/* 太阳/月亮切换按钮样式 */
-#theme-toggle {
-    background-color: transparent;
-    border: none;
-    font-size: 24px;
-    color: white;
-    cursor: pointer;
-    padding: 15px 20px;
-    margin-top: auto;
-    text-align: center;
-    display: block;
-    transition: opacity 0.3s ease;
-}
-
-#theme-toggle:hover {
-    opacity: 0.7;
-}
-
-body.dark-mode {
-    background-color: #2d2d2d;
-    color: white;
-}
-
-body.dark-mode .top-bar {
-    background-color: #444;
-}
-
-body.dark-mode .sidebar {
-    background-color: #222;
-}
-
-body.dark-mode .sidebar a {
-    background-color: #333;
-}
-
-body.dark-mode .sidebar a:hover {
-    background-color: #007bff;
-}
-
-body.dark-mode .main-content {
-    background-color: #333;
+/* 响应式设计 */
+@media screen and (max-width: 992px) {
+    .search-box {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 768px) {
     .sidebar {
-        width: 200px;
+        left: -250px;
     }
 
     .main-content {
-        margin-left: 200px;
+        margin-left: 0;
     }
 
-    .top-bar {
-        padding: 0 20px;
+    .title {
+        font-size: 16px;
     }
+
+    .content-header {
+        padding: 15px;
+    }
+
+    #page-title {
+        font-size: 20px;
+    }
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.sidebar-item,
+.menu-item {
+    animation: fadeIn 0.3s ease;
 }
 
 .modal-buttons {
@@ -245,34 +452,4 @@ body.dark-mode .main-content {
 
 #cancel-logout:hover {
     background-color: darkgray; /* 取消按钮悬停颜色 */
-}
-
-/* 移动端适配，隐藏侧边栏并给主内容宽度设置为 100% */
-@media screen and (max-width: 768px) {
-    .sidebar {
-        left: -250px;
-        transition: left 0.3s ease;
-    }
-
-    .top-bar .title {
-        font-size: 15px;
-        margin: auto auto;
-    }
-
-    .main-content {
-        margin-left: 0;
-        margin-top: 60px;
-    }
-
-    .menu-title {
-        display: block;
-        cursor: pointer;
-    }
-
-
-
-    /* 切换日夜模式按钮 */
-    #theme-toggle {
-        display: block;
-    }
 }

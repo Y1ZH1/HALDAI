@@ -62,7 +62,7 @@ document.getElementById('fileInput').addEventListener('change', function (e) {
             document.getElementById('originalImage').src = e.target.result;
 
             // 显示"处理中"的提示
-            document.getElementById('processedImage').src = '../pic/loading.png';  // 可选：添加加载中的图片
+            document.getElementById('processedImage').src = '../pic/loading.gif';  
             document.getElementById('angleResult').textContent = "处理中...";
             document.getElementById('textResult').textContent = "正在分析图片，请稍候...";
 
@@ -90,7 +90,7 @@ document.getElementById('fileInput2').addEventListener('change', function (e) {
             document.getElementById('originalImage2').src = e.target.result;
 
             // 显示"处理中"的提示
-            document.getElementById('processedImage2').src = '../pic/loading.gif';  // 可选：添加加载中的图片
+            document.getElementById('processedImage2').src = '../pic/loading.gif'; 
             document.getElementById('angleResult2').textContent = "处理中...";
             document.getElementById('textResult2').textContent = "正在分析图片，请稍候...";
 
