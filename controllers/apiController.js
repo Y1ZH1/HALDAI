@@ -130,6 +130,41 @@ const set_user_info = async (req, res) => {
     }
 };
 
+const set_manager_info = async (req, res) => {
+    try {
+        // 校验请求参数
+        if (!req.body.field || !req.body.value || !req.user.id) {
+            return res.status(400).json({ code: 0, message: '请求参数不完整' });
+        }
+        // 映射合法字段
+        const field = mapping.managerdata_sql[req.body.field];
+        if (!field) {
+            return res.status(400).json({ code: 0, message: '无效的字段' });
+        }
+
+        // 查询用户数据
+        const selectQuery = `SELECT ${field} FROM managerdata`;
+        const userdata = await db.promise().query(selectQuery);
+
+        if (!userdata[0] || userdata[0].length === 0) {
+            return res.status(404).json({ code: 0, message: '该数据项未找到' });
+        }
+
+        // 更新用户数据
+        const updateQuery = `UPDATE managerdata SET ${field} = ? WHERE uuid = ?`;
+        const result = await db.promise().query(updateQuery, [req.body.value, req.user.id]);
+
+        if (!result[0] || result[0].affectedRows === 0) {
+            return res.status(400).json({ code: 0, message: '更新失败' });
+        }
+
+        return res.status(200).json({ code: 1, message: '更新成功' });
+    } catch (error) {
+        req.log_ERR('数据库错误', error);
+        return res.status(500).json({ code: 0, message: '数据库错误，修改失败' });
+    }
+};
+
 // 验证Token
 const varify_token = async (req, res) => {
     const { token } = req.body;
@@ -430,6 +465,7 @@ module.exports = {
     get_user_info,
     get_manager_info,
     set_user_info,
+    set_manager_info,
     varify_token,
     log_out,
     uploadImages,

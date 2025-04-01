@@ -1,3 +1,5 @@
+import { activeModal } from './modal.js';
+
 document.addEventListener('DOMContentLoaded', () => {
     const token = localStorage.getItem('token'); // 从 localStorage 获取 token
     // 如果没有 token，直接返回
@@ -16,6 +18,19 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     fetchUserInfo(fields, token);
+
+    const editBtn = document.querySelectorAll('.action-button')[0]; // 编辑信息按钮
+    const schoolBtn = document.querySelectorAll('.action-button')[1]; // 学校管理按钮
+    const notificationBtn = document.querySelectorAll('.action-button')[2]; // 通知提醒按钮
+
+    const editModal = document.getElementById('edit-modal');
+    const closeEditModalBtn = document.getElementById('close-modal');
+    const submitButtons = document.querySelectorAll('.submit-btn');
+
+    // 开关编辑信息交互框
+    activeModal(editBtn, closeEditModalBtn, editModal, 300);
+    // 提交表单数据
+    editSubmit(token, submitButtons);
 });
 
 async function fetchUserInfo(fields, token) {
@@ -46,6 +61,8 @@ async function fetchUserInfo(fields, token) {
                     fields[field].textContent = data.data[field];
                 }
             });
+            // 把用户基础信息存到本地
+            localStorage.setItem('name', data.data.userName);
         } else {
             console.error('数据不匹配');
             resetFields();
@@ -54,4 +71,41 @@ async function fetchUserInfo(fields, token) {
         console.error('Error:', error);
         resetFields();
     }
+}
+
+function editSubmit(token, submitButtons) {
+    submitButtons.forEach(button => {
+        button.addEventListener('click', async (e) => {
+            const field = e.target.dataset.field;
+            const input = document.getElementById(`edit-${field}`);
+            const value = input.value.trim();
+
+            if (value === '') {
+                alert('请输入有效数据');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/set_manager_info', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ field, value, token }),
+                });
+
+                const result = await response.json();
+                if (response.ok) {
+                    alert('提交成功');
+                    location.reload();
+                } else {
+                    alert('提交失败: ' + result.message);
+                    console.log('错误: ' + result.message);
+                }
+            } catch (error) {
+                console.error(error);
+                alert('网络错误');
+            }
+        });
+    });
 }

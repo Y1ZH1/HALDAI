@@ -40,12 +40,13 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 // 更新用户信息
 function updateUserInfo(user) {
+    const name = localStorage.getItem('name');
     if (user) {
         // 如果有用户数据，更新侧边栏的用户信息
         const userNameElement = document.querySelector(".user-name")
         const userAvatarElement = document.querySelector(".user-avatar img")
         if (userNameElement && user.username) {
-            userNameElement.textContent = user.username;
+            userNameElement.textContent = name;
         }
 
         if (userAvatarElement && user.avatar) {
@@ -132,11 +133,6 @@ window.loadPage = (url) => {
     const selectedItem = document.querySelector(`.sidebar-item[onclick*="${url}"]`)
     if (selectedItem) {
         selectedItem.classList.add("active")
-
-        // 更新页面标题和面包屑
-        const pageTitle = selectedItem.querySelector("span").textContent
-        document.getElementById("page-title").textContent = pageTitle
-        document.getElementById("breadcrumb-current").textContent = pageTitle
     }
 }
 

@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>个人中心</title>
     <link rel="stylesheet" href="../css/userInfo.css">
+    <link rel="stylesheet" href="../css/modal.css">
 </head>
 
 <body>
@@ -35,8 +36,55 @@
                 </div>
             </div>
         </div>
+
+        <div class="action-card">
+            <div class="action-buttons">
+                <button class="action-button">
+                    <img src="../pic/icon/edit.png" alt="编辑信息" class="button-icon">
+                    <span>编辑信息</span>
+                </button>
+                <button class="action-button">
+                    <img src="../pic/icon/school.png" alt="学校管理" class="button-icon">
+                    <span>学校管理</span>
+                </button>
+                <button class="action-button">
+                    <img src="../pic/icon/info.png" alt="通知提醒" class="button-icon">
+                    <span>通知提醒</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="modal" id="edit-modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <span>编辑个人信息</span>
+                    <button class="close-btn" id="close-modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <form id="edit-form">
+                        <div class="form-item">
+                            <label for="edit-username">姓名:</label>
+                            <input type="text" id="edit-username" name="name" placeholder="请输入姓名">
+                            <button type="button" class="submit-btn" data-field="username">提交</button>
+                        </div>
+                        <div class="form-item">
+                            <label for="edit-email">邮箱:</label>
+                            <input type="email" id="edit-email" name="email" placeholder="请输入邮箱">
+                            <button type="button" class="submit-btn" data-field="email">提交</button>
+                        </div>
+                        <div class="form-item">
+                            <label for="edit-tel">电话:</label>
+                            <input type="text" id="edit-tel" name="phone"
+                            placeholder="请输入11位电话号码" pattern="^\d{11}$" title="请输入有效的11位电话号码">
+                            <button type="button" class="submit-btn" data-field="tel">提交</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
     </div>
-    <script src="../js/admininfo.js"></script>
+    <script type="module" src="../js/admininfo.js"></script>
 </body>
 
 </html>

@@ -13,6 +13,8 @@ router.get('/get_user_info', authMiddleware.authenticateToken, apiController.get
 router.get('/get_manager_info', authMiddleware.authenticateToken, apiController.get_manager_info);
 // 设置用户信息
 router.post('/set_user_info', authMiddleware.authenticateToken, apiController.set_user_info);
+// 设置管理员信息
+router.post('/set_manager_info', authMiddleware.authenticateToken, apiController.set_manager_info);
 // 关联学校信息
 router.post('/link_schools', authMiddleware.authenticateToken, apiController.link_schools);
 // 用户查询体态信息

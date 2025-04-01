@@ -8,6 +8,12 @@
         "tel": "tel"
     },
 
+    "managerdata_sql": {
+        "name": "name",
+        "email": "email",
+        "tel": "tel"
+    },
+
     "uploadPath": {
         "sp_img": "sp_img"
     }
