@@ -25,7 +25,7 @@ async function fetchUserData() {
         if (img.code != 0) {
             img_names = img.data.filenames;
             for (let i = 0; i < img.data.count; i++) {
-                img_names[i] = '../uploads/' + img.data.user_folder + '/images/' + img_names[i];
+                img_names[i] = '/postureImg?n=' + img_names[i];
             }
         } else {
             img_names = null;

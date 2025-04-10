@@ -120,14 +120,12 @@ async function fetchUserInfo(fields, schoolInfoFields, token) {
             method: 'GET',
             headers: {
                 'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`,
             },
         });
 
         const data = await response.json();
         if (!response.ok) {
             console.error('Error:', response.statusText + ' ' + data.message);
-            localStorage.removeItem('token');
             window.parent.location.href = '/login'; // 重定向到登录页面
             return;
         }

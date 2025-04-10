@@ -40,6 +40,15 @@ const createUpload = (type) => {
     });
 };
 
+const set_upload_path = (req, res, next) => {
+    const upType = req.header['upload_type'];
+    if (!upType) {
+        req.uploadPath = path.join(__dirname, '../uploads/default');
+    } else if (upType == 'posture') {
+        req.uploadPath = path.join(__dirname, `../public/uploads/${req.user.id.split('-')[0]}/${folder || 'default'}`)
+    }
+};
+
 module.exports = {
     createUpload,
 };

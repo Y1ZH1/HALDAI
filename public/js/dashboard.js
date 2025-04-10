@@ -40,13 +40,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
 // 更新用户信息
 function updateUserInfo(user) {
-    const name = localStorage.getItem('name');
     if (user) {
         // 如果有用户数据，更新侧边栏的用户信息
         const userNameElement = document.querySelector(".user-name")
         const userAvatarElement = document.querySelector(".user-avatar img")
         if (userNameElement && user.username) {
-            userNameElement.textContent = name;
+            userNameElement.textContent = user.username;
         }
 
         if (userAvatarElement && user.avatar) {

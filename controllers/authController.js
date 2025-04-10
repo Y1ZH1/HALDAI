@@ -48,8 +48,8 @@ const register = async (req, res) => {
 
         // 插入用户认证信息
         await db.promise().query(
-            'INSERT INTO userinfo (uuid, username, password, created_at) VALUES (?, ?, ?, ?)',
-            [uuid, username, hashedPassword, created_at]
+            'INSERT INTO userinfo (uuid, username, password, created_at, enable) VALUES (?, ?, ?, ?)',
+            [uuid, username, hashedPassword, created_at, 1]
         );
 
         // 插入用户数据
@@ -82,6 +82,9 @@ const login = async (req, res) => {
         const user = results[0];
         const isMatch = await bcrypt.compare(password, user.password);
 
+        if (!user.enable) {
+            return res.status(401).json({ code: 0, message: '该账号未启用，请联系管理员' });
+        }
         if (!isMatch) {
             return res.status(401).json({ code: 0, message: '密码错误' });
         }

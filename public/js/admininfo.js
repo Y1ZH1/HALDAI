@@ -61,8 +61,6 @@ async function fetchUserInfo(fields, token) {
                     fields[field].textContent = data.data[field];
                 }
             });
-            // 把用户基础信息存到本地
-            localStorage.setItem('name', data.data.userName);
         } else {
             console.error('数据不匹配');
             resetFields();

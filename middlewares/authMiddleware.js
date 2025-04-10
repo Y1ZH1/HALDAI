@@ -100,8 +100,9 @@ const preProc = (req, res, next) => {
     req.requestTime = new Date();   //添加请求到达时间
     req.requestLocalTime = req.requestTime.toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" });
     req.localTime = (timestamp) => { timestamp.toLocaleString("zh-CN", { timeZone: "Asia/Shanghai" }) };
-    req.log_INFO = (msg, time = req.requestLocalTime) => { console.log(`INFO [${time}]: ` + msg) };
-    req.log_ERR = (msg, error = '', time = req.requestLocalTime) => { console.error(`ERR [${time}]: ` + msg, error) };
+    req.client_ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress || '未取得IP';
+    req.log_INFO = (msg, ip = req.client_ip, time = req.requestLocalTime) => { console.log(`INFO [${ip}] [${time}]: ` + msg) };
+    req.log_ERR = (msg, error = '', ip = req.client_ip, time = req.requestLocalTime) => { console.error(`ERR [${ip}] [${time}]: ` + msg, error) };
     next();
 }
 

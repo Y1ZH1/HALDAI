@@ -6,7 +6,8 @@ CREATE TABLE userinfo (
     type ENUM('user', 'manager', 'admin'),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     last_login TIMESTAMP NULL,
-    token VARCHAR(255)
+    token VARCHAR(255),
+    enable BOOLEAN NOT NULL
 );
 
 -- 用户数据表
